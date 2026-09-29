@@ -1,0 +1,1261 @@
+<title>Arithmétique Maths Expertes</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Literata:ital,opsz,wght@0,7..72,400;0,7..72,600;1,7..72,400&family=JetBrains+Mono:wght@400;600&display=swap">
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+  svg: { fontCache: 'global' },
+  options: { skipHtmlTags: ['script','noscript','style','textarea','pre','code'] }
+};
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+/* Layout : cahier de révision — sommaire collant à gauche, colonne de lecture ~68ch, encadrés typés comme au tableau (bleu = cours, rouge = piège, vert = méthode) */
+:root{
+  --bg:#f4f6f8; --paper:#ffffff; --ink:#172433; --muted:#566476; --line:#d9e0e8;
+  --blue:#1d57b8; --blue-soft:#e8effb;
+  --red:#b8322a; --red-soft:#fbecea;
+  --green:#1f7a52; --green-soft:#e6f4ec;
+  --amber:#8a5a00; --amber-soft:#fbf3df;
+  --f-display:"Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --f-body:"Literata", Georgia, "Times New Roman", serif;
+  --f-mono:"JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#10161d; --paper:#161e27; --ink:#e3e9f0; --muted:#98a6b6; --line:#2a3644;
+    --blue:#7aa8f2; --blue-soft:#1a2a42;
+    --red:#f08c83; --red-soft:#3a1f1d;
+    --green:#6fcf9f; --green-soft:#16302a;
+    --amber:#e3b862; --amber-soft:#342a14;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#10161d; --paper:#161e27; --ink:#e3e9f0; --muted:#98a6b6; --line:#2a3644;
+  --blue:#7aa8f2; --blue-soft:#1a2a42;
+  --red:#f08c83; --red-soft:#3a1f1d;
+  --green:#6fcf9f; --green-soft:#16302a;
+  --amber:#e3b862; --amber-soft:#342a14;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:17px;line-height:1.65}
+.wrap{max-width:1180px;margin:0 auto;padding-inline:20px;padding-block:28px 80px;display:grid;grid-template-columns:240px minmax(0,1fr);gap:48px}
+nav.toc{position:sticky;top:calc(env(safe-area-inset-top,0px) + 20px);align-self:start;font-family:var(--f-display);font-size:14px;max-height:calc(100vh - 40px);overflow:auto}
+nav.toc .lbl{text-transform:uppercase;letter-spacing:.09em;font-size:11.5px;color:var(--muted);font-weight:700;margin-bottom:10px}
+nav.toc ol{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px;counter-reset:t}
+nav.toc a{display:block;color:var(--ink);text-decoration:none;padding:5px 10px;border-radius:6px;line-height:1.3}
+nav.toc a:hover,nav.toc a:focus-visible{background:var(--blue-soft);color:var(--blue);outline:none}
+nav.toc a span{color:var(--muted);font-family:var(--f-mono);font-size:12px;margin-right:6px}
+main{min-width:0;max-width:760px}
+header.hero{padding-block:8px 28px;border-bottom:2px solid var(--ink);margin-bottom:36px}
+.kicker{font-family:var(--f-mono);font-size:12.5px;color:var(--blue);letter-spacing:.04em}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(34px,6vw,54px);line-height:1.02;margin:10px 0 14px;letter-spacing:-.02em;text-wrap:balance}
+.hero p{margin:0;color:var(--muted);max-width:62ch}
+h2{font-family:var(--f-display);font-weight:800;font-size:30px;line-height:1.15;margin:64px 0 6px;letter-spacing:-.01em;text-wrap:balance;scroll-margin-top:20px}
+h2 .num{font-family:var(--f-mono);font-weight:600;font-size:15px;color:var(--blue);display:block;margin-bottom:4px;letter-spacing:.02em}
+h3{font-family:var(--f-display);font-weight:700;font-size:21px;margin:36px 0 8px;text-wrap:balance;scroll-margin-top:20px}
+p{margin:0 0 14px}
+ul,ol{padding-left:1.3em;margin:0 0 14px}
+li{margin-bottom:6px}
+strong{font-weight:600}
+.lead{color:var(--muted);margin-bottom:22px}
+
+.box{border-radius:10px;padding:16px 18px 6px;margin:18px 0 22px;border:1px solid var(--line);background:var(--paper)}
+.box > .tag{font-family:var(--f-display);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.09em;display:inline-block;margin-bottom:8px}
+.box.def{background:var(--blue-soft);border-color:transparent}.box.def > .tag{color:var(--blue)}
+.box.prop{background:var(--paper)}.box.prop > .tag{color:var(--blue)}
+.box.meth{background:var(--green-soft);border-color:transparent}.box.meth > .tag{color:var(--green)}
+.box.trap{background:var(--red-soft);border-color:transparent}.box.trap > .tag{color:var(--red)}
+.box.redac{background:var(--amber-soft);border-color:transparent}.box.redac > .tag{color:var(--amber)}
+
+.math-scroll{overflow-x:auto;overflow-y:hidden}
+mjx-container[display="true"]{overflow-x:auto;overflow-y:hidden;max-width:100%;padding-block:2px}
+
+.proof{border-left:3px solid var(--line);padding-left:16px;margin:10px 0 18px}
+.proof .qed{text-align:right;color:var(--muted);font-family:var(--f-mono);font-size:13px}
+
+table.map{width:100%;border-collapse:collapse;font-size:15.5px;margin:10px 0 22px}
+.tablewrap{overflow-x:auto;margin:10px 0 22px}
+.tablewrap table{margin:0}
+table.map th,table.map td{text-align:left;vertical-align:top;padding:10px 12px;border-bottom:1px solid var(--line)}
+table.map th{font-family:var(--f-display);font-size:12.5px;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700}
+table.map td:first-child{font-weight:600;min-width:160px}
+
+.ex{background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:16px 18px 8px;margin:16px 0}
+.ex .head{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:baseline;margin-bottom:6px}
+.ex .id{font-family:var(--f-mono);font-weight:600;font-size:13px;color:var(--blue)}
+.ex .src{font-family:var(--f-display);font-size:12px;color:var(--muted);letter-spacing:.03em}
+.ex .lvl{font-family:var(--f-display);font-size:11.5px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;padding:2px 8px;border-radius:99px;background:var(--blue-soft);color:var(--blue)}
+.ex .lvl.hard{background:var(--red-soft);color:var(--red)}
+details{margin:6px 0 10px;border-top:1px dashed var(--line);padding-top:8px}
+summary{cursor:pointer;font-family:var(--f-display);font-weight:700;font-size:14.5px;color:var(--green);list-style:none;display:inline-flex;align-items:center;gap:8px;padding:4px 0}
+summary::-webkit-details-marker{display:none}
+summary::before{content:"+";font-family:var(--f-mono);display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;background:var(--green-soft)}
+details[open] summary::before{content:"−"}
+summary:focus-visible{outline:2px solid var(--green);outline-offset:3px;border-radius:4px}
+details > div{padding-top:6px}
+
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0 4px}
+button.tb{font-family:var(--f-display);font-weight:700;font-size:13.5px;border:1px solid var(--line);background:var(--paper);color:var(--ink);padding:8px 14px;border-radius:8px;cursor:pointer}
+button.tb:hover{border-color:var(--blue);color:var(--blue)}
+button.tb:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+.check{list-style:none;padding:0}
+.check li{padding-left:30px;position:relative}
+.check li::before{content:"";position:absolute;left:2px;top:.45em;width:14px;height:14px;border:2px solid var(--blue);border-radius:3px}
+
+.boxed{display:inline-block;border:2px solid var(--ink);padding:2px 10px;border-radius:4px}
+.done{margin-left:auto;display:inline-flex;align-items:center;gap:6px;font-family:var(--f-display);font-size:12.5px;font-weight:700;color:var(--muted);cursor:pointer;user-select:none}
+.done input{width:16px;height:16px;accent-color:var(--green);cursor:pointer}
+.ex.is-done{border-color:var(--green)}
+.ex.is-done .done{color:var(--green)}
+.progress{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--bg);padding-block:10px;margin:8px 0 6px;display:flex;align-items:center;gap:14px;font-family:var(--f-display);font-size:14px;font-weight:700}
+.progress .bar{flex:1;height:8px;border-radius:99px;background:var(--line);overflow:hidden}
+.progress .bar i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}
+.progress .count{font-variant-numeric:tabular-nums;min-width:70px;text-align:right}
+.group{font-family:var(--f-display);font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:34px 0 4px;padding-bottom:6px;border-bottom:1px solid var(--line)}
+.pts{font-family:var(--f-mono);font-size:12.5px;color:var(--muted)}
+.verdict{margin-top:6px}
+footer{margin-top:64px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:14px}
+
+@media (max-width:900px){
+  .wrap{grid-template-columns:minmax(0,1fr);gap:0;padding-inline:16px}
+  nav.toc{position:static;max-height:none;margin-bottom:12px;background:var(--paper);border:1px solid var(--line);border-radius:10px;padding:14px}
+  nav.toc ol{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr))}
+  body{font-size:16px}
+  h2{font-size:26px}
+}
+@media (prefers-reduced-motion: reduce){*{scroll-behavior:auto!important}}
+html{scroll-behavior:smooth}
+</style>
+
+<div class="wrap">
+<nav class="toc" aria-label="Sommaire">
+  <div class="lbl">Sommaire</div>
+  <ol>
+    <li><a href="#parcoeur"><span>★</span>Par cœur</a></li>
+    <li><a href="#divisibilite"><span>1</span>Divisibilité</a></li>
+    <li><a href="#diviseurs"><span>2</span>Lister les diviseurs</a></li>
+    <li><a href="#euclide"><span>3</span>Division euclidienne</a></li>
+    <li><a href="#raisonnements"><span>4</span>Les 4 raisonnements</a></li>
+    <li><a href="#recurrence"><span>5</span>Récurrence</a></li>
+    <li><a href="#methodes"><span>6</span>Fiches méthodes</a></li>
+    <li><a href="#reperer"><span>7</span>Reconnaître l'exercice</a></li>
+    <li><a href="#exos"><span>8</span>Entraînement corrigé</a></li>
+    <li><a href="#redaction"><span>9</span>Rédaction et pièges</a></li>
+    <li><a href="#validation"><span>10</span>Exercices de validation</a></li>
+    <li><a href="#blanc"><span>11</span>Contrôle blanc</a></li>
+    <li><a href="#sujetb"><span>12</span>Sujet B corrigé</a></li>
+  </ol>
+</nav>
+
+<main>
+<header class="hero">
+  <div class="kicker">MATHS EXPERTES · CHAPITRE 1 · SANS CONGRUENCES</div>
+  <h1>Arithmétique&nbsp;: divisibilité et division euclidienne</h1>
+  <p>Tout ce qu'il faut savoir, les méthodes pour chaque type d'exercice, et tous les exercices de tes sujets et du tableau corrigés pas à pas. Les corrections sont cachées&nbsp;: cherche d'abord, ouvre ensuite.</p>
+</header>
+
+<section id="parcoeur" class="box def" style="margin-top:0">
+<span class="tag">À savoir par cœur</span>
+
+<p><strong>1. Définitions</strong></p>
+<ul>
+<li>\(a \mid b \iff\) il existe \(k \in \mathbb{Z}\) tel que \(b = ak\).</li>
+<li>Division euclidienne : pour \(a \in \mathbb{Z}\), \(b \in \mathbb{N}^*\), il existe un unique \((q;r)\) avec \(a = bq + r\) <strong>et</strong> \(0 \leqslant r \lt b\).</li>
+<li>Écritures : pair \(2k\), impair \(2k+1\) ; par 3 : \(3k,\ 3k+1,\ 3k+2\) ; par 4 : \(4k, \dots, 4k+3\).</li>
+</ul>
+
+<p><strong>2. Propriétés</strong></p>
+<ul>
+<li>\(a \mid b\) et \(b \mid c \Rightarrow a \mid c\).</li>
+<li>\(a \mid b\) et \(a \mid c \Rightarrow a \mid bu + cv\) pour tous \(u, v \in \mathbb{Z}\).</li>
+<li>\(ab \mid n \Rightarrow a \mid n\) et \(b \mid n\) (réciproque fausse : \(2 \mid 2\), \(2 \mid 2\), \(4 \nmid 2\)).</li>
+<li>\(a \mid b\), \(b \neq 0 \Rightarrow |a| \leqslant |b|\) ; \(a \mid b\) et \(b \mid a \Rightarrow a = \pm b\).</li>
+<li>\(a - b \mid a^n - b^n\).</li>
+<li>Si un nombre premier \(p\) divise \(m^2\), alors \(p \mid m\).</li>
+</ul>
+
+<p><strong>3. Preuves à savoir refaire sans réfléchir</strong></p>
+<ul>
+<li>La combinaison linéaire \(a \mid bu + cv\) (ROC).</li>
+<li>\(\sqrt{2}\), \(\sqrt{3}\) irrationnels (absurde, fraction irréductible).</li>
+<li>Le squelette de récurrence : initialisation, hérédité en isolant la puissance, conclusion.</li>
+</ul>
+
+<p><strong>4. Résultats classiques</strong></p>
+<ul>
+<li>\(n(n+1)\) est pair ; \(n(n+1)(n+2)\) est divisible par \(6\).</li>
+<li>Un carré a pour reste \(0\) ou \(1\) par \(3\), et \(0\) ou \(1\) par \(4\).</li>
+<li>Si \(n\) est impair, \(n^2 - 1\) est divisible par \(8\) (reste de \(n^2\) par \(8\) : \(1\)).</li>
+<li>\(x^2 - y^2 = (x-y)(x+y)\) ; \(x - y\) et \(x + y\) ont la même parité.</li>
+</ul>
+
+<p><strong>5. Réflexes de méthode</strong></p>
+<ul>
+<li>«&nbsp;\(f(n)\) divise \(g(n)\)&nbsp;» : combinaison pour éliminer \(n\) → diviseurs d'une constante (<strong>négatifs compris</strong>) → réciproque.</li>
+<li>Équation : factoriser → couples de diviseurs → signe et parité → systèmes.</li>
+<li>«&nbsp;Pas de solution&nbsp;» : absurde + restes.</li>
+<li>\(n\) en exposant : récurrence.</li>
+<li>Reste d'une somme : additionner les restes puis ramener entre \(0\) et \(b - 1\).</li>
+<li>Dividende négatif : \(-a = b(-q-1) + (b - r)\).</li>
+</ul>
+</section>
+
+<!-- ============ 1 ============ -->
+<h2 id="divisibilite"><span class="num">§1</span>Divisibilité dans \(\mathbb{Z}\)</h2>
+<p class="lead">Tout le chapitre repose sur une seule définition. Si tu la maîtrises, tu sais faire 80&nbsp;% des démonstrations.</p>
+
+<div class="box def"><span class="tag">Définition</span>
+<p>Soient \(a\) et \(b\) deux entiers relatifs. On dit que <strong>\(a\) divise \(b\)</strong>, et on note \(a \mid b\), s'il existe un entier \(k \in \mathbb{Z}\) tel que</p>
+\[ b = a \times k. \]
+<p>On dit aussi que \(a\) est un <strong>diviseur</strong> de \(b\), ou que \(b\) est un <strong>multiple</strong> de \(a\).</p>
+</div>
+
+<p>Exemples&nbsp;: \(3 \mid 12\) car \(12 = 3\times 4\). \(-5 \mid 35\) car \(35 = (-5)\times(-7)\). \(4 \nmid 10\) car \(10/4\) n'est pas entier.</p>
+
+<div class="box trap"><span class="tag">À ne pas confondre</span>
+<ul>
+<li>\(a \mid b\) est une <strong>affirmation</strong> (vraie ou fausse), pas un nombre. On n'écrit jamais \(a \mid b = 3\).</li>
+<li>Tout entier divise \(0\) (car \(0 = a\times 0\)). Mais \(0\) ne divise que \(0\).</li>
+<li>\(1\) et \(-1\) divisent tous les entiers. \(n\) et \(-n\) divisent \(n\).</li>
+<li>Les diviseurs vont par paires de signes&nbsp;: si \(a \mid b\) alors \(-a \mid b\). <strong>Dans \(\mathbb{Z}\), on n'oublie jamais les diviseurs négatifs.</strong></li>
+</ul>
+</div>
+
+<h3>Les propriétés à connaître (et à savoir redémontrer)</h3>
+
+<div class="box prop"><span class="tag">Propriété 1 · Transitivité</span>
+<p>Si \(a \mid b\) et \(b \mid c\), alors \(a \mid c\).</p>
+<div class="proof">
+<p>\(b = ak\) et \(c = bk'\) avec \(k, k' \in \mathbb{Z}\). Donc \(c = a(kk')\) et \(kk' \in \mathbb{Z}\). Donc \(a \mid c\).</p>
+</div>
+</div>
+
+<div class="box prop"><span class="tag">Propriété 2 · Combinaison linéaire (la plus importante)</span>
+<p>Si \(a \mid b\) et \(a \mid c\), alors pour tous entiers \(u\) et \(v\)&nbsp;: \(\;a \mid bu + cv\).</p>
+<p>Cas particuliers très utilisés&nbsp;: \(a \mid b + c\), \(\;a \mid b - c\), \(\;a \mid 3b - 2c\), etc.</p>
+<div class="proof">
+<p><strong>(ROC, déjà tombé au contrôle.)</strong> Supposons \(a \mid b\) et \(a \mid c\). Il existe \(k \in \mathbb{Z}\) tel que \(b = ak\) et il existe \(k' \in \mathbb{Z}\) tel que \(c = ak'\). Soient \(u, v \in \mathbb{Z}\). Alors</p>
+\[ bu + cv = aku + ak'v = a\,(ku + k'v). \]
+<p>Or \(k, k', u, v \in \mathbb{Z}\), donc \(ku + k'v \in \mathbb{Z}\). Donc \(a \mid bu + cv\).</p>
+<div class="qed">□</div>
+</div>
+</div>
+
+<div class="box prop"><span class="tag">Propriété 3 · Produit</span>
+<p>Si \(a \mid b\), alors \(a \mid bc\) pour tout entier \(c\). Et si \(a \mid b\), alors \(ac \mid bc\).</p>
+</div>
+
+<div class="box prop"><span class="tag">Propriété 4 · Comparaison</span>
+<p>Si \(a \mid b\) et \(b \neq 0\), alors \(|a| \leqslant |b|\). Conséquence&nbsp;: si \(a \mid b\) et \(b \mid a\), alors \(a = b\) ou \(a = -b\).</p>
+</div>
+
+<div class="box prop"><span class="tag">Propriété 5 · Si ab divise n</span>
+<p>Si \(ab \mid n\), alors \(a \mid n\) et \(b \mid n\).</p>
+<div class="proof">
+<p>\(n = ab\,k = a\,(bk)\) avec \(bk \in \mathbb{Z}\), donc \(a \mid n\). De même \(n = b\,(ak)\), donc \(b \mid n\).</p>
+</div>
+<p><strong>La réciproque est fausse.</strong> «&nbsp;Si \(a \mid n\) et \(b \mid n\), alors \(ab \mid n\)&nbsp;» : contre-exemple \(a = 12\), \(b = 6\), \(n = 24\). On a \(12 \mid 24\) et \(6 \mid 24\), mais \(12\times 6 = 72 \nmid 24\). (Encore plus simple&nbsp;: \(a = b = n = 2\).)</p>
+</div>
+
+<div class="box meth"><span class="tag">Outil bonus · Factorisation de puissances</span>
+<p>Pour tout entier naturel \(n \geqslant 1\)&nbsp;:</p>
+\[ a^n - b^n = (a-b)\left(a^{n-1} + a^{n-2}b + \dots + ab^{n-2} + b^{n-1}\right). \]
+<p>Donc <strong>\(a - b\) divise toujours \(a^n - b^n\)</strong>. Exemples&nbsp;: \(25^n - 8^n\) est divisible par \(17\), \(49^n - 1\) par \(48\) (donc par \(4\)), \(8^n - 1\) par \(7\), \(9^n - 2^n\) par \(7\). Au contrôle on te demande souvent une récurrence, mais cet outil te donne la réponse instantanément pour vérifier.</p>
+</div>
+
+<!-- ============ 2 ============ -->
+<h2 id="diviseurs"><span class="num">§2</span>Trouver tous les diviseurs d'un nombre</h2>
+<p>C'est l'étape finale de presque tous les exercices du type «&nbsp;\(n-4 \mid 3n+24\)&nbsp;». Il faut donc être rapide et ne rien oublier.</p>
+
+<div class="box meth"><span class="tag">Méthode · Les paires</span>
+<p>On cherche les produits \(d \times d' = N\) avec \(d \leqslant \sqrt{N}\). Pour \(36\)&nbsp;: \(1\times 36,\; 2\times 18,\; 3\times 12,\; 4\times 9,\; 6\times 6\).</p>
+<p>Diviseurs positifs de \(36\)&nbsp;: \(\{1, 2, 3, 4, 6, 9, 12, 18, 36\}\). Dans \(\mathbb{Z}\), on ajoute leurs opposés&nbsp;: \(18\) diviseurs en tout.</p>
+</div>
+
+<div class="box prop"><span class="tag">Vérification · Nombre de diviseurs</span>
+<p>Si \(N = p_1^{\alpha_1} \times p_2^{\alpha_2} \times \dots\) (décomposition en facteurs premiers), le nombre de diviseurs positifs est \((\alpha_1+1)(\alpha_2+1)\dots\)</p>
+<p>\(36 = 2^2 \times 3^2\), donc \((2+1)(2+1) = 9\) diviseurs positifs. Ça permet de vérifier qu'on n'en a oublié aucun.</p>
+</div>
+
+<!-- ============ 3 ============ -->
+<h2 id="euclide"><span class="num">§3</span>La division euclidienne</h2>
+
+<div class="box def"><span class="tag">Théorème</span>
+<p>Soient \(a \in \mathbb{Z}\) et \(b \in \mathbb{N}^*\). Il existe un <strong>unique</strong> couple d'entiers \((q\,;\,r)\) tel que</p>
+\[ a = bq + r \qquad \text{avec} \qquad 0 \leqslant r \lt b. \]
+<p>\(a\) est le dividende, \(b\) le diviseur, \(q\) le quotient, \(r\) le reste.</p>
+</div>
+
+<div class="box trap"><span class="tag">Le piège n°1 du chapitre</span>
+<p>Écrire \(a = bq + r\) <strong>ne suffit pas</strong> pour dire que \(r\) est le reste. Il faut aussi vérifier \(0 \leqslant r \lt b\).</p>
+<p>Exemple&nbsp;: \(47 = 5\times 8 + 7\) est vrai, mais \(7\) n'est pas le reste de la division de \(47\) par \(5\) car \(7 \geqslant 5\). Le vrai reste est \(2\) (\(47 = 5 \times 9 + 2\)).</p>
+<p>Autre exemple&nbsp;: \(144 = 29\times 5 - 1\). Le «&nbsp;\(-1\)&nbsp;» n'est pas un reste (négatif)&nbsp;; on réécrit \(144 = 28\times 5 + 4\), reste \(4\).</p>
+</div>
+
+<div class="box meth"><span class="tag">Méthode · «&nbsp;Division euclidienne de n² + n − 9 par n + 4&nbsp;»</span>
+<p>Quand le diviseur dépend de \(n\)&nbsp;:</p>
+<ol>
+<li>On écrit le dividende sous la forme \(\text{(diviseur)} \times q + r\) (souvent l'énoncé le donne, sinon on pose la division de polynômes).</li>
+<li>On vérifie \(0 \leqslant r \lt \text{diviseur}\). <strong>C'est cette condition qui dépend de \(n\)</strong> et qui oblige parfois à faire des cas.</li>
+<li>Pour les petites valeurs de \(n\) où la condition est fausse, on calcule directement.</li>
+</ol>
+</div>
+
+<div class="box meth"><span class="tag">Méthode · Encadrer le diviseur</span>
+<p>«&nbsp;Dans la division de \(524\) par \(b\), le quotient est \(15\)&nbsp;». On écrit \(524 = 15b + r\) avec \(0 \leqslant r \lt b\), donc \(r = 524 - 15b\) et</p>
+\[ 0 \leqslant 524 - 15b \lt b \iff 15b \leqslant 524 \ \text{ et }\ 524 \lt 16b \iff \frac{524}{16} \lt b \leqslant \frac{524}{15}. \]
+<p>Soit \(32{,}75 \lt b \leqslant 34{,}9\ldots\), donc \(b \in \{33\,;\,34\}\). Si \(b=33\)&nbsp;: \(r = 524 - 495 = 29\). Si \(b = 34\)&nbsp;: \(r = 524 - 510 = 14\).</p>
+<p><span class="boxed">\((b\,;\,r) = (33\,;\,29)\) ou \((34\,;\,14)\)</span></p>
+</div>
+
+<div class="box prop"><span class="tag">Restes possibles et écriture des entiers</span>
+<p>Les restes possibles dans la division par \(b\) sont \(0, 1, \dots, b-1\). Donc tout entier \(n\) s'écrit&nbsp;:</p>
+<ul>
+<li>par \(2\)&nbsp;: \(n = 2k\) ou \(n = 2k+1\)&nbsp;;</li>
+<li>par \(3\)&nbsp;: \(n = 3k\), \(3k+1\) ou \(3k+2\)&nbsp;;</li>
+<li>par \(4\)&nbsp;: \(n = 4k\), \(4k+1\), \(4k+2\) ou \(4k+3\).</li>
+</ul>
+<p>C'est la base de la <strong>disjonction de cas</strong> (§4).</p>
+</div>
+
+<div class="box meth"><span class="tag">Méthode · Reste d'une somme ou d'un produit</span>
+<p>«&nbsp;Le reste de \(n\) par \(13\) est \(9\), celui de \(p\) est \(6\). Reste de \(n + p\) ?&nbsp;» On traduit : \(n = 13a + 9\) et \(p = 13b + 6\) avec \(a, b \in \mathbb{N}\). Alors</p>
+\[ n + p = 13(a + b) + 15 = 13(a + b + 1) + 2 \quad \text{avec } 0 \leqslant 2 \lt 13. \]
+<p>Le reste est \(2\), <strong>pas \(15\)</strong> : on additionne les restes, puis on retire le diviseur autant de fois que nécessaire pour retomber entre \(0\) et \(12\).</p>
+<p>Pour un produit : \(np = (13a+9)(13b+6) = 13(13ab + 6a + 9b) + 54 = 13(13ab + 6a + 9b + 4) + 2\), reste \(2\) (car \(54 = 4 \times 13 + 2\)).</p>
+</div>
+
+<div class="box meth"><span class="tag">Méthode · Division euclidienne d'un nombre négatif</span>
+<p>Le reste doit toujours vérifier \(0 \leqslant r \lt b\), <strong>même si le dividende est négatif</strong>. Si \(a = bq + r\) avec \(0 \lt r \lt b\), alors</p>
+\[ -a = b(-q) - r = b(-q - 1) + (b - r) \quad \text{avec } 0 \lt b - r \lt b. \]
+<p>Le quotient de \(-a\) est \(-q - 1\) et le reste est \(b - r\). (Si \(r = 0\), c'est simplement \(-q\) et \(0\).)</p>
+<p>Exemple : \(47 = 5 \times 9 + 2\) donc \(-47 = 5 \times (-10) + 3\). Réponse fausse classique : quotient \(-9\), reste \(-2\) (un reste négatif est interdit).</p>
+</div>
+
+<!-- ============ 4 ============ -->
+<h2 id="raisonnements"><span class="num">§4</span>Les quatre raisonnements</h2>
+<p class="lead">En arithmétique, on démontre presque toujours avec l'un de ces quatre outils. Savoir lequel choisir, c'est la moitié du travail.</p>
+
+<h3>a) Le calcul direct avec la définition</h3>
+<p>On écrit les hypothèses avec des \(k\) («&nbsp;il existe \(k \in \mathbb{Z}\) tel que…&nbsp;»), on calcule, on factorise, on conclut. Exemple&nbsp;: la somme de deux impairs consécutifs.</p>
+<div class="proof">
+<p>Deux impairs consécutifs s'écrivent \(2k+1\) et \(2k+3\) avec \(k \in \mathbb{Z}\). Leur somme vaut \(4k + 4 = 4(k+1)\) avec \(k + 1 \in \mathbb{Z}\). Elle est donc divisible par \(4\).</p>
+</div>
+
+<h3>b) La disjonction de cas</h3>
+<p>Quand on ne sait rien de \(n\), on regarde tous ses restes possibles dans la division par le nombre qui nous intéresse (par \(3\) si on veut prouver «&nbsp;multiple de \(3\)&nbsp;», par \(2\) ou \(4\) pour la parité…).</p>
+<div class="box meth"><span class="tag">Exemple · n(n² + 5) est un multiple de 3</span>
+<ul>
+<li>Si \(n = 3k\)&nbsp;: \(n(n^2+5) = 3\,k(n^2+5)\), multiple de \(3\).</li>
+<li>Si \(n = 3k+1\)&nbsp;: \(n^2 + 5 = 9k^2 + 6k + 6 = 3(3k^2+2k+2)\), donc \(3 \mid n^2+5\), donc \(3 \mid n(n^2+5)\).</li>
+<li>Si \(n = 3k+2\)&nbsp;: \(n^2 + 5 = 9k^2 + 12k + 9 = 3(3k^2+4k+3)\), idem.</li>
+</ul>
+<p>Dans tous les cas, \(3 \mid n(n^2+5)\).</p>
+<p><em>Astuce plus rapide&nbsp;:</em> \(n(n^2+5) = n(n^2-1) + 6n = (n-1)n(n+1) + 6n\). Parmi trois entiers consécutifs, l'un est multiple de \(3\), donc \(3 \mid (n-1)n(n+1)\)&nbsp;; et \(3 \mid 6n\). Donc \(3\) divise la somme.</p>
+</div>
+<div class="box prop"><span class="tag">Résultats classiques à connaître</span>
+<ul>
+<li>\(n(n+1)\) est toujours pair (un des deux est pair).</li>
+<li>\(n(n+1)(n+2)\) est toujours divisible par \(2\) et par \(3\), donc par \(6\).</li>
+<li>Un carré, divisé par \(4\), a pour reste \(0\) (si \(n\) pair) ou \(1\) (si \(n\) impair). Il n'a <strong>jamais</strong> pour reste \(2\) ou \(3\).</li>
+<li>Si \(n\) est impair, \(n^2 - 1\) est divisible par \(8\).</li>
+</ul>
+</div>
+
+<h3>c) La contraposée</h3>
+<p>\(A \Rightarrow B\) est équivalent à \(\text{non }B \Rightarrow \text{non }A\). Utile quand l'hypothèse «&nbsp;\(n^2\) pair&nbsp;» est difficile à exploiter mais que «&nbsp;\(n\) impair&nbsp;» est facile.</p>
+<div class="proof">
+<p><strong>Montrer&nbsp;:</strong> si \(n^2\) est pair alors \(n\) est pair. Contraposée&nbsp;: si \(n\) est impair alors \(n^2\) est impair. \(n = 2k+1 \Rightarrow n^2 = 4k^2+4k+1 = 2(2k^2+2k)+1\), impair. Donc la propriété est vraie.</p>
+</div>
+
+<h3>d) Le raisonnement par l'absurde</h3>
+<p>On suppose le contraire de ce qu'on veut montrer et on aboutit à une contradiction. C'est le réflexe pour «&nbsp;montrer que l'équation n'a pas de solution&nbsp;».</p>
+<div class="proof">
+<p><strong>Montrer que \(7x^2 - 4y^2 = 1\) n'a pas de solution dans \(\mathbb{Z}\)</strong> (sans congruences).<br>
+Supposons qu'il existe une solution \((x\,;\,y)\). Alors \(7x^2 = 4y^2 + 1\), donc \(7x^2\) a pour reste \(1\) dans la division par \(4\).</p>
+<ul>
+<li>Si \(x\) est pair, \(x = 2k\)&nbsp;: \(7x^2 = 4\times 7k^2\), reste \(0\).</li>
+<li>Si \(x\) est impair, \(x = 2k+1\)&nbsp;: \(7x^2 = 28k^2 + 28k + 7 = 4(7k^2+7k+1) + 3\), reste \(3\).</li>
+</ul>
+<p>Le reste n'est jamais \(1\)&nbsp;: contradiction. L'équation n'a pas de solution.</p>
+</div>
+
+<div class="box prop"><span class="tag">Classique de l'absurde · √2 et √3 sont irrationnels</span>
+<p><strong>Lemme admis :</strong> si un nombre premier \(p\) divise un produit \(mn\), alors \(p \mid m\) ou \(p \mid n\). En particulier, si \(p \mid m^2\), alors \(p \mid m\).</p>
+<p><strong>Schéma</strong> (avec \(\sqrt{3}\), même chose avec \(\sqrt{2}\) ou \(\sqrt{5}\)) :</p>
+<ol>
+<li>Supposons \(\sqrt{3} = \dfrac{p}{q}\) avec \(p, q \in \mathbb{N}^*\) et la fraction <strong>irréductible</strong> (on peut toujours simplifier une fraction).</li>
+<li>On élève au carré : \(p^2 = 3q^2\). Donc \(3 \mid p^2\), donc \(3 \mid p\).</li>
+<li>\(p = 3k\) : \(9k^2 = 3q^2\), soit \(q^2 = 3k^2\). Donc \(3 \mid q\).</li>
+<li>\(3\) divise \(p\) et \(q\) : la fraction n'était pas irréductible. Contradiction, donc \(\sqrt{3} \notin \mathbb{Q}\).</li>
+</ol>
+<p>Correction complète rédigée au §12.</p>
+</div>
+
+<!-- ============ 5 ============ -->
+<h2 id="recurrence"><span class="num">§5</span>La récurrence pour les divisibilités</h2>
+<p class="lead">Type d'exercice quasi garanti&nbsp;: «&nbsp;Montrer que pour tout \(n \in \mathbb{N}\), \(7^{2n}-1\) est divisible par \(4\)&nbsp;».</p>
+
+<div class="box meth"><span class="tag">Le squelette à recopier</span>
+<ol>
+<li><strong>Propriété.</strong> Pour \(n \in \mathbb{N}\), on note \(P(n)\)&nbsp;: «&nbsp;\(\ldots\) est divisible par \(d\)&nbsp;».</li>
+<li><strong>Initialisation.</strong> On calcule pour \(n = 0\) et on vérifie. Donc \(P(0)\) est vraie.</li>
+<li><strong>Hérédité.</strong> Soit \(n \in \mathbb{N}\). On suppose \(P(n)\) vraie&nbsp;: il existe \(k \in \mathbb{Z}\) tel que \(\ldots = d\,k\). <em>On isole la puissance</em> dans cette égalité. On calcule l'expression au rang \(n+1\), on remplace, on factorise par \(d\). Donc \(P(n+1)\) est vraie.</li>
+<li><strong>Conclusion.</strong> Par récurrence, \(P(n)\) est vraie pour tout \(n \in \mathbb{N}\).</li>
+</ol>
+<p>L'astuce clé de l'hérédité&nbsp;: <strong>faire apparaître la puissance du rang \(n\)</strong>, par exemple \(7^{2(n+1)} = 7^{2n}\times 49\).</p>
+</div>
+
+<h3>Exemple 1 · 7<sup>2n</sup> − 1 divisible par 4</h3>
+<div class="proof">
+<p><strong>Init.</strong> \(n=0\)&nbsp;: \(7^0 - 1 = 0 = 4\times 0\). \(P(0)\) vraie.</p>
+<p><strong>Hérédité.</strong> Supposons \(7^{2n} - 1 = 4k\), soit \(7^{2n} = 4k + 1\). Alors</p>
+\[ 7^{2(n+1)} - 1 = 49 \times 7^{2n} - 1 = 49(4k+1) - 1 = 196k + 48 = 4(49k + 12). \]
+<p>Comme \(49k + 12 \in \mathbb{Z}\), \(P(n+1)\) est vraie. <strong>Conclusion</strong> par récurrence.</p>
+</div>
+
+<h3>Exemple 2 · 5<sup>2n</sup> − 2<sup>3n</sup> divisible par 17</h3>
+<div class="proof">
+<p>On remarque \(5^{2n} = 25^n\) et \(2^{3n} = 8^n\).</p>
+<p><strong>Init.</strong> \(25^0 - 8^0 = 0\), divisible par \(17\).</p>
+<p><strong>Hérédité.</strong> Supposons \(25^n - 8^n = 17k\), soit \(25^n = 8^n + 17k\). Alors</p>
+\[ 25^{n+1} - 8^{n+1} = 25(8^n + 17k) - 8\times 8^n = 17\times 8^n + 25\times 17k = 17\,(8^n + 25k). \]
+<p>Donc \(P(n+1)\) vraie. Conclusion par récurrence.</p>
+</div>
+
+<h3>Exemple 3 · 2 × 7<sup>2n+1</sup> + 3<sup>n+2</sup> divisible par 23 (bonus)</h3>
+<div class="proof">
+<p><strong>Init.</strong> \(n=0\)&nbsp;: \(2\times 7 + 3^2 = 14 + 9 = 23\). Vrai.</p>
+<p><strong>Hérédité.</strong> Supposons \(2\times 7^{2n+1} + 3^{n+2} = 23k\). On isole \(3^{n+2} = 23k - 2\times 7^{2n+1}\). Alors</p>
+\[ \begin{aligned} 2\times 7^{2n+3} + 3^{n+3} &= 2\times 49 \times 7^{2n+1} + 3 \times 3^{n+2} \\ &= 98 \times 7^{2n+1} + 3\,(23k - 2\times 7^{2n+1}) \\ &= 92\times 7^{2n+1} + 69k \\ &= 23\,(4\times 7^{2n+1} + 3k). \end{aligned} \]
+<p>Donc \(P(n+1)\) vraie. Conclusion par récurrence.</p>
+</div>
+
+<!-- ============ 6 ============ -->
+<h2 id="methodes"><span class="num">§6</span>Fiches méthodes : les grands types d'exercices</h2>
+
+<h3>Type A · «&nbsp;Déterminer les n tels que n − 4 divise 3n + 24&nbsp;»</h3>
+<div class="box meth"><span class="tag">Méthode · éliminer n</span>
+<ol>
+<li>On sait que \(n - 4 \mid n-4\). Par combinaison linéaire, \(n - 4 \mid (3n+24) - 3(n-4)\), soit \(n - 4 \mid 36\). <em>Le but&nbsp;: choisir les coefficients pour que les \(n\) disparaissent.</em></li>
+<li>Donc \(n-4\) est un diviseur de \(36\) (positif <strong>ou négatif</strong>, en tenant compte des contraintes sur \(n\)).</li>
+<li>On en déduit la liste des \(n\) possibles.</li>
+<li><strong>Réciproque.</strong> On vérifie que chaque valeur convient (tableau). Obligatoire si on a multiplié par un nombre à l'étape 1.</li>
+</ol>
+</div>
+
+<div class="proof">
+<p>Ici \(n \in \mathbb{N}\), donc \(n - 4 \geqslant -4\). Diviseurs de \(36\) supérieurs ou égaux à \(-4\)&nbsp;: \(-4,-3,-2,-1,1,2,3,4,6,9,12,18,36\).</p>
+<p>Donc \(n \in \{0, 1, 2, 3, 5, 6, 7, 8, 10, 13, 16, 22, 40\}\).</p>
+<p>Réciproque&nbsp;: \(3n + 24 = 3(n-4) + 36\). Si \(n-4 \mid 36\), alors \(n-4\) divise \(3(n-4)+36\). Toutes les valeurs conviennent. (Et \(n = 4\) est exclu car \(0\) ne divise pas \(36\).)</p>
+</div>
+
+<div class="box meth"><span class="tag">Variante · diviseur de degré 1, dividende de degré 2</span>
+<p>«&nbsp;\(n - 1 \mid n^2 + 3n + 1\)&nbsp;». On fait la division&nbsp;: \(n^2 + 3n + 1 = (n-1)(n+4) + 5\). Comme \(n-1 \mid (n-1)(n+4)\), on obtient \(n - 1 \mid 5\).</p>
+<p>\(n-1 \in \{-5, -1, 1, 5\}\) donc <span class="boxed">\(n \in \{-4, 0, 2, 6\}\)</span>. Vérification&nbsp;: \(n=6\)&nbsp;: \(5 \mid 55\) ✓, \(n=-4\)&nbsp;: \(-5 \mid 5\) ✓, etc.</p>
+<p><em>Autre chemin (celui du tableau)&nbsp;:</em> \(n-1 \mid (n^2+3n+1) - n(n-1) = 4n+1\), puis \(n - 1 \mid (4n+1) - 4(n-1) = 5\).</p>
+</div>
+
+<div class="box meth"><span class="tag">Variante · coefficient devant n</span>
+<p>«&nbsp;\(2n + 3 \mid 3n + 7\)&nbsp;». On combine&nbsp;: \(2n+3 \mid 2(3n+7) - 3(2n+3) = 14 - 9 = 5\).</p>
+<p>\(2n+3 \in \{-5, -1, 1, 5\}\), donc \(2n \in \{-8, -4, -2, 2\}\), <span class="boxed">\(n \in \{-4, -2, -1, 1\}\)</span>.</p>
+<p><strong>Réciproque obligatoire</strong> (on a multiplié par \(2\) et \(3\))&nbsp;: \(n=-4\)&nbsp;: \(-5 \mid -5\) ✓&nbsp;; \(n=-2\)&nbsp;: \(-1 \mid 1\) ✓&nbsp;; \(n=-1\)&nbsp;: \(1 \mid 4\) ✓&nbsp;; \(n=1\)&nbsp;: \(5 \mid 10\) ✓.</p>
+<p>Attention&nbsp;: si une valeur du diviseur donne un \(n\) non entier (par exemple \(3n + 1 = 2\) donnerait \(n = 1/3\)), on l'élimine.</p>
+</div>
+
+<h3>Type B · Équations «&nbsp;produit = nombre&nbsp;»</h3>
+<div class="box meth"><span class="tag">Méthode</span>
+<ol>
+<li><strong>Factoriser</strong> le membre de gauche&nbsp;: \(x^2 - y^2 = (x-y)(x+y)\), \(\;3xy - y^2 = y(3x - y)\), \(\;9x^2 - y^2 = (3x-y)(3x+y)\).</li>
+<li>Les deux facteurs sont des <strong>diviseurs associés</strong> du nombre de droite.</li>
+<li><strong>Réduire les cas</strong> avec des remarques&nbsp;: signe (dans \(\mathbb{N}\), \(x+y \geqslant x-y\)), parité (\(x+y\) et \(x-y\) ont la même parité car leur somme \(2x\) est paire).</li>
+<li>Résoudre chaque petit système, garder les solutions entières, conclure avec l'ensemble \(S\).</li>
+</ol>
+</div>
+
+<div class="proof">
+<p><strong>\(x^2 - y^2 = 7\) dans \(\mathbb{Z}\).</strong> \((x-y)(x+y) = 7\), et \(7\) est premier. Les couples \((x-y\,;\,x+y)\) possibles sont \((1;7), (7;1), (-1;-7), (-7;-1)\). En faisant somme et différence&nbsp;:</p>
+<ul>
+<li>\(x-y = 1,\ x+y = 7\ \Rightarrow\ x = 4,\ y = 3\)</li>
+<li>\(x-y = 7,\ x+y = 1\ \Rightarrow\ x = 4,\ y = -3\)</li>
+<li>\(x-y = -1,\ x+y = -7\ \Rightarrow\ x = -4,\ y = -3\)</li>
+<li>\(x-y = -7,\ x+y = -1\ \Rightarrow\ x = -4,\ y = 3\)</li>
+</ul>
+<p><span class="boxed">\(S = \{(4;3),\,(4;-3),\,(-4;-3),\,(-4;3)\}\)</span></p>
+</div>
+
+<h3>Type C · «&nbsp;Montrer que … est divisible par …&nbsp;» pour tout n</h3>
+<p>Trois outils, dans cet ordre de réflexe&nbsp;:</p>
+<ol>
+<li><strong>Factoriser ou réécrire</strong> (somme de 4 consécutifs&nbsp;: \(4n+6 = 2(2n+3)\)).</li>
+<li><strong>Disjonction de cas</strong> sur le reste de \(n\) (si c'est un polynôme en \(n\)).</li>
+<li><strong>Récurrence</strong> (si il y a \(n\) en exposant).</li>
+</ol>
+
+<h3>Type D · Retrouver un nombre à partir de deux divisions</h3>
+<div class="proof">
+<p>«&nbsp;On divise \(n\) par \(137\) et \(143\), les quotients sont égaux et les restes sont \(131\) et \(5\).&nbsp;» On écrit \(n = 137q + 131 = 143q + 5\) (les restes sont valides&nbsp;: \(131 \lt 137\) et \(5 \lt 143\)). Donc \(6q = 126\), \(q = 21\), et \(n = 137\times 21 + 131 = 3008\).</p>
+<p>Vérification&nbsp;: \(143 \times 21 + 5 = 3003 + 5 = 3008\) ✓. <span class="boxed">\(n = 3008\)</span></p>
+</div>
+
+<h3>Type E · Descente&nbsp;: «&nbsp;a² + b² = 2<sup>k</sup>&nbsp;»</h3>
+<p>Exercice le plus difficile de ton sujet de 2025 (4 points, les traces de recherche comptent). Il est entièrement corrigé dans l'entraînement (exercice 17).</p>
+
+<!-- ============ 7 ============ -->
+<h2 id="reperer"><span class="num">§7</span>Reconnaître l'exercice en 10 secondes</h2>
+<div class="tablewrap">
+<table class="map">
+<thead><tr><th>Si l'énoncé dit…</th><th>Réflexe</th></tr></thead>
+<tbody>
+<tr><td>«&nbsp;Montrer que si a | b et a | c, alors…&nbsp;»</td><td>Écrire \(b = ak\), \(c = ak'\), calculer, factoriser par \(a\).</td></tr>
+<tr><td>«&nbsp;Déterminer les n tels que (expr. en n) divise (expr. en n)&nbsp;»</td><td>Combinaison linéaire pour éliminer \(n\) → diviseurs d'une constante → réciproque.</td></tr>
+<tr><td>«&nbsp;Résoudre … = nombre dans ℕ ou ℤ&nbsp;» avec des carrés ou des produits</td><td>Factoriser, lister les couples de diviseurs, réduire par signe/parité, résoudre les systèmes.</td></tr>
+<tr><td>«&nbsp;… n'a pas de solution&nbsp;»</td><td>Absurde + restes (souvent par \(4\) pour des carrés).</td></tr>
+<tr><td>n en exposant, «&nbsp;pour tout n ∈ ℕ&nbsp;»</td><td>Récurrence (vérifier avec \(a - b \mid a^n - b^n\)).</td></tr>
+<tr><td>«&nbsp;pour tout n, n(…) est multiple de 3&nbsp;»</td><td>Disjonction de cas \(3k, 3k+1, 3k+2\), ou astuce des consécutifs.</td></tr>
+<tr><td>«&nbsp;Quotient de 15 et reste r, trouver b&nbsp;»</td><td>\(r = a - bq\) puis encadrement \(0 \leqslant r \lt b\).</td></tr>
+<tr><td>«&nbsp;Reste de la division de f(n) par g(n)&nbsp;»</td><td>Écrire \(f = g\times q + r\), puis étudier quand \(0 \leqslant r \lt g(n)\) ; cas particuliers pour les petits \(n\).</td></tr>
+<tr><td>«&nbsp;Énoncer la réciproque, est-elle vraie ?&nbsp;»</td><td>Échanger hypothèse et conclusion. Si fausse&nbsp;: un seul contre-exemple chiffré suffit.</td></tr>
+<tr><td>«&nbsp;√3 (ou √2, √5) n'est pas rationnel&nbsp;»</td><td>Absurde : fraction irréductible \(p/q\), \(p^2 = 3q^2\), \(3 \mid p\) puis \(3 \mid q\), contradiction.</td></tr>
+<tr><td>«&nbsp;Le reste de n par 13 est 9, celui de p est 6. Reste de n + p ?&nbsp;»</td><td>\(n = 13a + 9\), \(p = 13b + 6\), regrouper, ramener le reste entre \(0\) et \(12\).</td></tr>
+<tr><td>Division euclidienne d'un nombre négatif</td><td>\(-a = b(-q-1) + (b - r)\). Le reste reste positif.</td></tr>
+<tr><td>Consécutifs, impairs, pairs</td><td>\(n, n+1, n+2\) ; \(2k+1, 2k+3\) ; puis factoriser.</td></tr>
+</tbody>
+</table>
+</div>
+
+<!-- ============ 8 ============ -->
+<h2 id="exos"><span class="num">§8</span>Entraînement corrigé</h2>
+<p class="lead">Tous les exercices de tes quatre sujets (sans les questions de congruences), plus quelques inédits du même style. Cherche au moins 5 minutes avant d'ouvrir une correction.</p>
+<div class="toolbar">
+  <button class="tb" id="openAll" type="button">Tout déplier</button>
+  <button class="tb" id="closeAll" type="button">Tout replier</button>
+</div>
+
+<div class="ex"><div class="head"><span class="id">EX 1</span><span class="lvl">Facile</span><span class="src">DS n°1</span></div>
+<p>Démontrer que la somme de deux nombres impairs consécutifs est divisible par \(4\).</p>
+<details><summary>Correction</summary><div>
+<p>Soient \(2k+1\) et \(2k+3\) (\(k \in \mathbb{Z}\)) deux impairs consécutifs. Leur somme vaut \(4k+4 = 4(k+1)\), avec \(k+1 \in \mathbb{Z}\). Elle est divisible par \(4\).</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 2</span><span class="lvl">Facile</span><span class="src">DS n°1 · tableau</span></div>
+<p>Soient \(a, b, n\) des entiers naturels. 1) Montrer que si \(ab\) divise \(n\), alors \(a\) et \(b\) divisent \(n\). 2) Énoncer la réciproque ; est-elle vraie ?</p>
+<details><summary>Correction</summary><div>
+<p>1) \(ab \mid n\) : il existe \(k\) tel que \(n = abk\). Alors \(n = a(bk)\) donc \(a \mid n\), et \(n = b(ak)\) donc \(b \mid n\).</p>
+<p>2) Réciproque : «&nbsp;si \(a\) et \(b\) divisent \(n\), alors \(ab\) divise \(n\)&nbsp;». Fausse : \(12 \mid 24\) et \(6 \mid 24\) mais \(72 \nmid 24\).</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 3</span><span class="lvl">Classique</span><span class="src">DS n°1 · tableau</span></div>
+<p>Déterminer les entiers naturels \(n\) tels que \(n-4\) divise \(3n+24\).</p>
+<details><summary>Correction</summary><div>
+<p>Voir §6 type A. \(n - 4 \mid (3n+24) - 3(n-4) = 36\). Avec \(n-4 \geqslant -4\) : <span class="boxed">\(n \in \{0,1,2,3,5,6,7,8,10,13,16,22,40\}\)</span>. Réciproque : \(3n+24 = 3(n-4)+36\) donc toutes conviennent.</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 4</span><span class="lvl">Classique</span><span class="src">DS n°1 · tableau</span></div>
+<p>Déterminer tous les entiers relatifs \(x\) et \(y\) tels que \(x^2 - y^2 = 7\).</p>
+<details><summary>Correction</summary><div>
+<p>Voir §6 type B. <span class="boxed">\(S = \{(4;3),(4;-3),(-4;-3),(-4;3)\}\)</span></p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 5</span><span class="lvl">Facile</span><span class="src">DS n°1 · tableau</span></div>
+<p>On divise un entier naturel \(n\) par \(137\) et \(143\). Les quotients sont égaux et les restes sont \(131\) et \(5\). Trouver \(n\).</p>
+<details><summary>Correction</summary><div>
+<p>\(137q + 131 = 143q + 5 \Rightarrow 6q = 126 \Rightarrow q = 21\), donc <span class="boxed">\(n = 3008\)</span>. Vérifié : \(3008 = 143\times 21 + 5\).</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 6</span><span class="lvl">Récurrence</span><span class="src">DS n°1 · tableau</span></div>
+<p>Démontrer que, pour tout \(n \in \mathbb{N}\), \(7^{2n} - 1\) est divisible par \(4\).</p>
+<details><summary>Correction</summary><div><p>Voir §5, exemple 1.</p></div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 7</span><span class="lvl">Récurrence</span><span class="src">DS n°1 (sans congruences)</span></div>
+<p>Montrer que, pour tout \(n \in \mathbb{N}\), \(3^{2n} - 2^n\) est divisible par \(7\).</p>
+<details><summary>Correction</summary><div>
+<p>\(3^{2n} = 9^n\). <strong>Init.</strong> \(9^0 - 2^0 = 0\). <strong>Hérédité.</strong> Supposons \(9^n = 2^n + 7k\). Alors \(9^{n+1} - 2^{n+1} = 9(2^n + 7k) - 2\times 2^n = 7\times 2^n + 63k = 7(2^n + 9k)\). Conclusion par récurrence.</p>
+<p>Vérification rapide : \(9 - 2 = 7\) divise \(9^n - 2^n\).</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 8</span><span class="lvl hard">Bonus</span><span class="src">DS n°1 · tableau</span></div>
+<p>Montrer que pour tout \(n \in \mathbb{N}\), \(2\times 7^{2n+1} + 3^{n+2}\) est divisible par \(23\).</p>
+<details><summary>Correction</summary><div><p>Voir §5, exemple 3.</p></div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 9</span><span class="lvl">Cours</span><span class="src">Contrôle n°1</span></div>
+<p>1) (ROC) Montrer que si \(a \mid b\) et \(a \mid c\), alors \(a \mid bu + cv\). 2) Quelles sont les valeurs de \(n \in \mathbb{Z}\) pour lesquelles \(n^2 + 3n + 1\) est divisible par \(n-1\) ?</p>
+<details><summary>Correction</summary><div>
+<p>1) Voir §1, propriété 2. 2) Voir §6, variante : <span class="boxed">\(n \in \{-4, 0, 2, 6\}\)</span>.</p>
+<p>Tableau de vérification : \(n=-4\) : \(n-1=-5\), \(n^2+3n+1 = 5\) ✓ ; \(n=0\) : \(-1\) et \(1\) ✓ ; \(n=2\) : \(1\) et \(11\) ✓ ; \(n=6\) : \(5\) et \(55\) ✓.</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 10</span><span class="lvl">Classique</span><span class="src">Contrôle n°1 · tableau</span></div>
+<p>Dans la division euclidienne de \(524\) par \(b \in \mathbb{N}^*\), le quotient est \(15\) et le reste \(r\). Déterminer toutes les valeurs possibles de \(b\) et \(r\).</p>
+<details><summary>Correction</summary><div><p>Voir §3, méthode «&nbsp;encadrer&nbsp;». <span class="boxed">\((b;r) = (33;29)\) ou \((34;14)\)</span></p></div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 11</span><span class="lvl">Classique</span><span class="src">Contrôle n°1 · tableau</span></div>
+<p>1) Déterminer les restes possibles dans la division euclidienne d'un nombre impair par \(4\). 2) Montrer que si \(n\) est impair, \(n^2 - 1\) est divisible par \(8\).</p>
+<details><summary>Correction</summary><div>
+<p>1) \(n = 2k+1\). Si \(k = 2p\) : \(n = 4p+1\), reste \(1\). Si \(k = 2p+1\) : \(n = 4p+3\), reste \(3\). Les restes possibles sont \(1\) et \(3\).</p>
+<p>2) \(n = 2k+1\), \(n^2 - 1 = 4k^2 + 4k = 4k(k+1)\). Or \(k(k+1)\) est pair (produit de deux consécutifs) : \(k(k+1) = 2p\). Donc \(n^2 - 1 = 8p\).</p>
+<p><em>Version disjonction de cas (celle du tableau) :</em> si \(k = 2\ell\), \(n^2-1 = 8\ell(2\ell+1)\) ; si \(k = 2\ell+1\), \(n^2-1 = 4(2\ell+1)(2\ell+2) = 8(2\ell+1)(\ell+1)\).</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 12</span><span class="lvl">Récurrence</span><span class="src">Contrôle n°1</span></div>
+<p>Montrer par récurrence que pour tout \(n \in \mathbb{N}\), \(5^{2n} - 2^{3n}\) est divisible par \(17\).</p>
+<details><summary>Correction</summary><div><p>Voir §5, exemple 2.</p></div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 13</span><span class="lvl">Classique</span><span class="src">Contrôle n°1 · tableau</span></div>
+<p>Déterminer les couples d'entiers naturels \((x;y)\) tels que \(3xy - y^2 = 25\).</p>
+<details><summary>Correction</summary><div>
+<p>\(y(3x - y) = 25\). Comme \(y \geqslant 0\) et le produit vaut \(25 \gt 0\), on a \(y \gt 0\) et \(3x - y \gt 0\). Couples de diviseurs de \(25\) : \((1;25), (5;5), (25;1)\).</p>
+<ul>
+<li>\(y = 1\), \(3x - 1 = 25\) : \(x = 26/3\), pas entier.</li>
+<li>\(y = 5\), \(3x - 5 = 5\) : \(x = 10/3\), pas entier.</li>
+<li>\(y = 25\), \(3x - 25 = 1\) : \(x = 26/3\), pas entier.</li>
+</ul>
+<p><span class="boxed">\(S = \varnothing\)</span></p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 14</span><span class="lvl">Classique</span><span class="src">Devoir 29/09/2025</span></div>
+<p>Résoudre dans \(\mathbb{N}^2\) : \(9x^2 - y^2 = 32\).</p>
+<details><summary>Correction</summary><div>
+<p>\((3x - y)(3x + y) = 32\). Comme \(x, y \in \mathbb{N}\), \(3x + y \geqslant 0\) ; le produit est positif donc \(3x - y \gt 0\), et \(3x - y \leqslant 3x + y\).</p>
+<p>Parité : \((3x+y) + (3x-y) = 6x\) est pair, donc les deux facteurs ont la même parité ; leur produit \(32\) est pair, donc ils sont tous les deux pairs.</p>
+<p>Couples \((3x-y\,;\,3x+y)\) pairs, croissants, de produit \(32\) : \((2;16)\) et \((4;8)\).</p>
+<ul>
+<li>\((2;16)\) : \(6x = 18\), \(x = 3\) ; \(2y = 14\), \(y = 7\). Vérif : \(81 - 49 = 32\) ✓</li>
+<li>\((4;8)\) : \(6x = 12\), \(x = 2\) ; \(2y = 4\), \(y = 2\). Vérif : \(36 - 4 = 32\) ✓</li>
+</ul>
+<p><span class="boxed">\(S = \{(2;2),\,(3;7)\}\)</span></p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 15</span><span class="lvl">Classique</span><span class="src">Devoir 29/09/2025</span></div>
+<p>1) Montrer que la somme de 4 entiers consécutifs est paire. 2) Montrer qu'elle n'est jamais un multiple de \(4\). 3) Peut-elle être un multiple de \(3\) ? Si oui, dans quels cas ?</p>
+<details><summary>Correction</summary><div>
+<p>Soit \(S = n + (n+1) + (n+2) + (n+3) = 4n + 6\).</p>
+<p>1) \(S = 2(2n+3)\) avec \(2n+3 \in \mathbb{Z}\) : \(S\) est paire.</p>
+<p>2) \(S = 4(n+1) + 2\) avec \(0 \leqslant 2 \lt 4\) : le reste de la division de \(S\) par \(4\) est \(2 \neq 0\). \(S\) n'est jamais multiple de \(4\).</p>
+<p>3) \(S = 4n+6 = 3(n+2) + n\). Comme \(3 \mid 3(n+2)\) : si \(3 \mid S\) alors \(3 \mid S - 3(n+2) = n\) ; et si \(3 \mid n\) alors \(3 \mid S\). Donc <strong>\(S\) est multiple de \(3\) si et seulement si le premier entier \(n\) est multiple de \(3\)</strong>. Exemple : \(3+4+5+6 = 18\) ✓ ; contre-exemple : \(1+2+3+4 = 10\).</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 16</span><span class="lvl">Classique</span><span class="src">Devoir 29/09/2025 · tableau</span></div>
+<p>Soit \(n \in \mathbb{N}\). 1) Vérifier que \(n^2 + n - 9 = (n+4)(n-3) + 3\). 2) En déduire le reste de la division de \(n^2+n-9\) par \(n+4\). 3) On suppose \(n \gt 3\). Donner, selon \(n\), le reste de la division de \(n^2+n-9\) par \(n-3\).</p>
+<details><summary>Correction</summary><div>
+<p>1) \((n+4)(n-3) + 3 = n^2 - 3n + 4n - 12 + 3 = n^2 + n - 9\) ✓.</p>
+<p>2) \(n^2+n-9 = (n+4)(n-3) + 3\) et \(0 \leqslant 3 \lt n+4\) (car \(n+4 \geqslant 4\)). Le reste est <span class="boxed">\(3\)</span>. <em>(Pour \(n \lt 3\), le «&nbsp;quotient&nbsp;» \(n-3\) est négatif et le dividende aussi, ça reste valable : la division euclidienne accepte un dividende négatif.)</em></p>
+<p>3) Même égalité, avec diviseur \(n - 3\) et quotient \(n + 4\). Le reste est \(3\) si \(3 \lt n - 3\), c'est-à-dire \(n \gt 6\). Sinon on calcule :</p>
+<ul>
+<li>\(n = 4\) : diviseur \(1\), reste \(0\).</li>
+<li>\(n = 5\) : \(n^2+n-9 = 21 = 2\times 10 + 1\), reste \(1\).</li>
+<li>\(n = 6\) : \(33 = 3 \times 11\), reste \(0\).</li>
+<li>\(n \geqslant 7\) : reste \(3\).</li>
+</ul>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 17</span><span class="lvl hard">Difficile</span><span class="src">Devoir 29/09/2025 · tableau</span></div>
+<p>Soit \(k \in \mathbb{N}^*\). On cherche \(a, b \in \mathbb{N}^*\) tels que \(a^2 + b^2 = 2^k\).<br>
+1) Montrer que si \(N = a^2 + b^2\) est multiple de \(4\), alors \(a\) et \(b\) sont pairs.<br>
+2) En déduire que \(a^2 + b^2 = 2^{2n}\) (\(n \in \mathbb{N}^*\)) n'a pas de solution.<br>
+3) Montrer que \(a^2 + b^2 = 2^{2n+1}\) (\(n \in \mathbb{N}\)) a une unique solution, que l'on précisera.</p>
+<details><summary>Correction</summary><div>
+<p><strong>1)</strong> Par contraposée (ou disjonction), on montre que si \(a\) et \(b\) ne sont pas tous deux pairs, \(4 \nmid a^2+b^2\).</p>
+<ul>
+<li>Un pair, un impair : \(a^2 + b^2\) est impair, donc pas multiple de \(4\).</li>
+<li>Deux impairs : \(a = 2p+1\), \(b = 2q+1\), \(a^2+b^2 = 4(p^2+p+q^2+q) + 2\), reste \(2\) dans la division par \(4\).</li>
+</ul>
+<p>Donc si \(4 \mid a^2+b^2\), \(a\) et \(b\) sont pairs.</p>
+<p><strong>2)</strong> Récurrence sur \(n \geqslant 1\), \(P(n)\) : «&nbsp;\(a^2+b^2 = 4^n\) n'a pas de solution dans \((\mathbb{N}^*)^2\)&nbsp;».</p>
+<ul>
+<li>Init. \(a^2 + b^2 = 4\) avec \(a, b \geqslant 1\) : \(a = 1\) donne \(b^2 = 3\), impossible ; \(a \geqslant 2\) donne \(b^2 \leqslant 0\), impossible. \(P(1)\) vraie.</li>
+<li>Hérédité. Supposons \(P(n)\) et, par l'absurde, que \(a^2 + b^2 = 4^{n+1}\) ait une solution. \(4^{n+1}\) est multiple de \(4\) donc, par 1), \(a = 2a'\), \(b = 2b'\) avec \(a', b' \in \mathbb{N}^*\). Alors \(4a'^2 + 4b'^2 = 4^{n+1}\), soit \(a'^2 + b'^2 = 4^n\) : contradiction avec \(P(n)\).</li>
+</ul>
+<p>(Idée du tableau : on divise par \(2\) autant de fois qu'il faut, et on arrive à \(h^2 + h'^2 = 1\) avec \(h, h' \geqslant 1\), impossible.)</p>
+<p><strong>3)</strong> Candidat : \(a = b = 2^n\), car \(2\times(2^n)^2 = 2^{2n+1}\) ✓. Unicité par récurrence, \(Q(n)\) : «&nbsp;la seule solution est \(a = b = 2^n\)&nbsp;».</p>
+<ul>
+<li>Init. \(a^2 + b^2 = 2\) avec \(a, b \geqslant 1\) impose \(a = b = 1 = 2^0\).</li>
+<li>Hérédité. Si \(a^2 + b^2 = 2^{2n+3}\), c'est un multiple de \(4\), donc \(a = 2a'\), \(b = 2b'\) et \(a'^2 + b'^2 = 2^{2n+1}\). Par \(Q(n)\), \(a' = b' = 2^n\), donc \(a = b = 2^{n+1}\).</li>
+</ul>
+<p><span class="boxed">Unique solution : \(a = b = 2^n\)</span></p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 18</span><span class="lvl">Classique</span><span class="src">Devoir 29/09/2025 · tableau</span></div>
+<p>Déterminer l'ensemble des \(n \in \mathbb{Z}\) tels que \(2n+3\) divise \(3n+7\). Puis : prouver que \(n(n^2+5)\) est multiple de \(3\).</p>
+<details><summary>Correction</summary><div><p>Voir §6 (variante coefficient) : <span class="boxed">\(n \in \{-4,-2,-1,1\}\)</span>. Et §4 b) pour \(n(n^2+5)\).</p></div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 19</span><span class="lvl">Récurrence</span><span class="src">Contrôle n°2</span></div>
+<p>Soit \((u_n)\) définie par \(u_0 = 2\) et \(u_{n+1} = 8u_n + 1\). 1) Calculer \(u_1, \dots, u_4\) et conjecturer le chiffre des unités pour \(n \geqslant 1\). 2) Démontrer la conjecture.</p>
+<details><summary>Correction</summary><div>
+<p>1) \(u_1 = 17\), \(u_2 = 137\), \(u_3 = 1097\), \(u_4 = 8777\). Conjecture : le chiffre des unités est \(7\).</p>
+<p>2) \(P(n)\) : «&nbsp;il existe \(k \in \mathbb{N}\) tel que \(u_n = 10k + 7\)&nbsp;» pour \(n \geqslant 1\). Init : \(u_1 = 17 = 10\times 1 + 7\). Hérédité : \(u_{n+1} = 8(10k+7) + 1 = 80k + 57 = 10(8k+5) + 7\). Conclusion par récurrence.</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 20</span><span class="lvl">Récurrence</span><span class="src">Contrôle n°2</span></div>
+<p>Démontrer que pour tout \(n \in \mathbb{N}\), \(2^{3n} - 1\) est multiple de \(7\). En déduire que \(2^{3n+1} - 2\) et \(2^{3n+2} - 4\) sont multiples de \(7\).</p>
+<details><summary>Correction</summary><div>
+<p>\(2^{3n} = 8^n\). Init : \(8^0 - 1 = 0\). Hérédité : \(8^n = 7k+1 \Rightarrow 8^{n+1} - 1 = 56k + 7 = 7(8k+1)\).</p>
+<p>Puis \(2^{3n+1} - 2 = 2(2^{3n} - 1)\) et \(2^{3n+2} - 4 = 4(2^{3n}-1)\) : multiples d'un multiple de \(7\).</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 21</span><span class="lvl">Absurde</span><span class="src">Contrôle n°2 (sans congruences)</span></div>
+<p>Prouver que \(7x^2 - 4y^2 = 1\) n'a pas de solution dans \(\mathbb{Z}^2\).</p>
+<details><summary>Correction</summary><div><p>Voir §4 d).</p></div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 22</span><span class="lvl">Inédit</span><span class="src">Même style</span></div>
+<p>Déterminer les entiers naturels \(n\) tels que \(n + 2\) divise \(n^2 + 5\).</p>
+<details><summary>Correction</summary><div>
+<p>\(n^2 + 5 = (n+2)(n-2) + 9\), donc \(n+2 \mid 9\). Comme \(n + 2 \geqslant 2\) : \(n + 2 \in \{3, 9\}\), <span class="boxed">\(n \in \{1, 7\}\)</span>. Vérif : \(3 \mid 6\) ✓, \(9 \mid 54\) ✓.</p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 23</span><span class="lvl">Inédit</span><span class="src">Même style</span></div>
+<p>Résoudre dans \(\mathbb{N}^2\) : \(x^2 - y^2 = 15\).</p>
+<details><summary>Correction</summary><div>
+<p>\((x-y)(x+y) = 15\), avec \(0 \lt x - y \leqslant x + y\). Couples : \((1;15)\) et \((3;5)\). \((1;15)\) : \(x = 8, y = 7\). \((3;5)\) : \(x = 4, y = 1\). <span class="boxed">\(S = \{(8;7),(4;1)\}\)</span></p>
+</div></details></div>
+
+<div class="ex"><div class="head"><span class="id">EX 24</span><span class="lvl">Inédit</span><span class="src">Même style</span></div>
+<p>Montrer que pour tout \(n \in \mathbb{N}\), \(n^3 - n\) est divisible par \(6\).</p>
+<details><summary>Correction</summary><div>
+<p>\(n^3 - n = (n-1)n(n+1)\), produit de trois entiers consécutifs. Parmi eux, au moins un est pair et un est multiple de \(3\). Donc \(2\) et \(3\) divisent \(n^3 - n\), et comme \(2\) et \(3\) sont premiers entre eux, \(6\) divise \(n^3-n\).</p>
+<p><em>Si ton prof n'accepte pas «&nbsp;premiers entre eux&nbsp;» :</em> fais la disjonction \(n = 6k, 6k+1, \dots, 6k+5\), ou montre séparément «&nbsp;pair&nbsp;» et «&nbsp;multiple de 3&nbsp;» puis écris \(n^3 - n = 2m\) et \(3 \mid 2m\) ⇒ \(3 \mid 3m - 2m = m\), donc \(n^3-n = 2\times 3m'\).</p>
+</div></details></div>
+
+<!-- ============ 9 ============ -->
+<h2 id="redaction"><span class="num">§9</span>Rédaction et pièges</h2>
+
+<div class="box redac"><span class="tag">Rédaction qui rapporte les points</span>
+<ul class="check">
+<li>Toujours introduire les objets : «&nbsp;Soit \(n \in \mathbb{N}\).&nbsp;», «&nbsp;Il existe \(k \in \mathbb{Z}\) tel que…&nbsp;».</li>
+<li>Toujours dire pourquoi le facteur est entier : «&nbsp;avec \(k+1 \in \mathbb{Z}\)&nbsp;». Sans cette phrase, la preuve est incomplète.</li>
+<li>Annoncer le raisonnement : «&nbsp;Raisonnons par l'absurde.&nbsp;», «&nbsp;Faisons une disjonction de cas.&nbsp;», «&nbsp;Montrons par récurrence…&nbsp;».</li>
+<li>Pour une division euclidienne, écrire les deux morceaux : l'égalité ET \(0 \leqslant r \lt b\).</li>
+<li>Pour les «&nbsp;déterminer les \(n\)&nbsp;» : écrire «&nbsp;Réciproquement&nbsp;» et vérifier.</li>
+<li>Terminer par une phrase de conclusion et encadrer le résultat.</li>
+</ul>
+</div>
+
+<div class="box trap"><span class="tag">Les erreurs qui coûtent cher</span>
+<ul>
+<li>Oublier les diviseurs <strong>négatifs</strong> quand \(n \in \mathbb{Z}\), ou quand \(n - 4\) peut être négatif même si \(n \in \mathbb{N}\).</li>
+<li>Oublier la réciproque (une implication ne donne que des candidats).</li>
+<li>Donner un reste \(\geqslant\) au diviseur, ou négatif.</li>
+<li>Dans une récurrence, «&nbsp;supposer&nbsp;» ce qu'on veut démontrer au rang \(n+1\). On part de l'expression au rang \(n+1\) et on arrive à \(d\times(\ldots)\).</li>
+<li>Écrire \(\dfrac{b}{a}\) au lieu de \(a \mid b\), ou diviser des entiers sans justifier que c'est entier.</li>
+<li>Utiliser les congruences (\(\equiv\)) si elles sont interdites : elles valent zéro.</li>
+<li>Oublier la condition \(a \neq 0\), \(b \neq 0\) quand l'énoncé impose \(\mathbb{N}^*\).</li>
+</ul>
+</div>
+
+<div class="box meth"><span class="tag">Plan de révision · la veille</span>
+<ol>
+<li>Réécris de mémoire la preuve de «&nbsp;\(a \mid b\) et \(a \mid c\) ⇒ \(a \mid bu + cv\)&nbsp;».</li>
+<li>Refais sans regarder les EX 3, 10, 14, 16 et 12.</li>
+<li>Relis le tableau du §7 et les pièges ci-dessus.</li>
+<li>Si tu as le temps : EX 17 (le plus dur), puis 22, 23, 24.</li>
+</ol>
+</div>
+
+<!-- ============ 10 ============ -->
+<h2 id="validation"><span class="num">§10</span>Exercices de validation</h2>
+<p class="lead">27 exercices nouveaux, au niveau de tes sujets ou un peu au-dessus. Le groupe G contient des problèmes longs en plusieurs questions, comme l'exercice 6 de ton devoir 2025 ou l'exercice 9 du DS n°1. Fais-les sur une feuille, <strong>rédigés comme au contrôle</strong>, puis compare. Coche «&nbsp;Réussi&nbsp;» seulement si la réponse est juste <em>et</em> la rédaction complète.</p>
+
+<div class="progress" aria-live="polite"><span>Progression</span><span class="bar"><i id="pbar"></i></span><span class="count" id="pcount">0 / 39</span></div>
+
+<div class="group">A · Divisibilité et propriétés</div>
+
+<div class="ex" data-id="V1"><div class="head"><span class="id">V1</span><span class="lvl">Classique</span></div>
+<p>Soit \(n \in \mathbb{Z}\).<br>
+1) Montrer que si \(d \in \mathbb{N}^*\) divise \(2n+1\) et \(9n+4\), alors \(d = 1\).<br>
+2) En déduire l'ensemble des entiers relatifs \(n\) tels que \(2n+1\) divise \(9n+4\).</p>
+<details><summary>Correction</summary><div>
+<p>1) Par combinaison linéaire, \(d \mid 9(2n+1) - 2(9n+4) = 18n + 9 - 18n - 8 = 1\). Comme \(d \in \mathbb{N}^*\), \(d = 1\).</p>
+<p>2) Si \(2n+1 \mid 9n+4\), alors \(|2n+1|\) est un diviseur positif commun de \(2n+1\) et \(9n+4\). D'après 1), \(|2n+1| = 1\), soit \(2n+1 \in \{-1, 1\}\), donc \(n \in \{-1, 0\}\).</p>
+<p>Réciproque : \(n = 0\) : \(1 \mid 4\) ✓ ; \(n = -1\) : \(-1 \mid -5\) ✓. <span class="boxed">\(S = \{-1, 0\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V2"><div class="head"><span class="id">V2</span><span class="lvl">Classique</span></div>
+<p>Vrai ou faux ? Justifier (preuve si vrai, contre-exemple si faux). \(a, b, c\) sont des entiers non nuls.</p>
+<ol>
+<li>Si \(a \mid b + c\), alors \(a \mid b\) et \(a \mid c\).</li>
+<li>Si \(a \mid b\) et \(a \mid c\), alors \(a^2 \mid bc\).</li>
+<li>Si \(a \mid bc\), alors \(a \mid b\) ou \(a \mid c\).</li>
+<li>Si \(a \mid b\) et \(b \mid a\), alors \(a = b\).</li>
+</ol>
+<details><summary>Correction</summary><div>
+<ol>
+<li><strong>Faux.</strong> \(3 \mid 1 + 2\) mais \(3 \nmid 1\).</li>
+<li><strong>Vrai.</strong> \(b = ak\), \(c = ak'\), donc \(bc = a^2(kk')\) avec \(kk' \in \mathbb{Z}\).</li>
+<li><strong>Faux.</strong> \(6 \mid 2 \times 3\) mais \(6 \nmid 2\) et \(6 \nmid 3\).</li>
+<li><strong>Faux dans \(\mathbb{Z}\).</strong> \(2 \mid -2\) et \(-2 \mid 2\) mais \(2 \neq -2\). On a seulement \(a = \pm b\). (Vrai si \(a, b \in \mathbb{N}^*\).)</li>
+</ol>
+<p>Un seul contre-exemple chiffré suffit pour «&nbsp;faux&nbsp;». Des exemples ne suffisent jamais pour «&nbsp;vrai&nbsp;».</p>
+</div></details></div>
+
+<div class="group">B · Déterminer les n tels que … divise …</div>
+
+<div class="ex" data-id="V3"><div class="head"><span class="id">V3</span><span class="lvl">Classique</span></div>
+<p>Déterminer les entiers relatifs \(n\) tels que \(n-2\) divise \(n^2+4\).</p>
+<details><summary>Correction</summary><div>
+<p>\(n^2 + 4 = (n-2)(n+2) + 8\). Comme \(n-2 \mid (n-2)(n+2)\), on obtient \(n - 2 \mid 8\).</p>
+<p>\(n - 2 \in \{-8, -4, -2, -1, 1, 2, 4, 8\}\) donc <span class="boxed">\(n \in \{-6, -2, 0, 1, 3, 4, 6, 10\}\)</span>.</p>
+<p>Réciproque : si \(n-2 \mid 8\), alors \(n-2\) divise \((n-2)(n+2) + 8 = n^2+4\). Toutes conviennent.</p>
+</div></details></div>
+
+<div class="ex" data-id="V4"><div class="head"><span class="id">V4</span><span class="lvl">Classique</span></div>
+<p>Déterminer les entiers relatifs \(n\) tels que \(3n+1\) divise \(5n+4\).</p>
+<details><summary>Correction</summary><div>
+<p>\(3n+1 \mid 3(5n+4) - 5(3n+1) = 12 - 5 = 7\).</p>
+<p>\(3n + 1 \in \{-7, -1, 1, 7\}\), donc \(3n \in \{-8, -2, 0, 6\}\). Seuls \(0\) et \(6\) sont multiples de \(3\) : \(n \in \{0, 2\}\). Les valeurs \(-8/3\) et \(-2/3\) sont éliminées.</p>
+<p>Réciproque (obligatoire, on a multiplié) : \(n = 0\) : \(1 \mid 4\) ✓ ; \(n = 2\) : \(7 \mid 14\) ✓. <span class="boxed">\(S = \{0, 2\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V5"><div class="head"><span class="id">V5</span><span class="lvl hard">Difficile</span></div>
+<p>Déterminer les entiers relatifs \(n\) tels que \(2n - 1\) divise \(n^2 + 2\).</p>
+<details><summary>Correction</summary><div>
+<p><strong>Idée :</strong> le coefficient \(2\) devant \(n\) empêche de diviser directement. On multiplie par \(4\) pour faire apparaître \((2n-1)(2n+1) = 4n^2 - 1\).</p>
+<p>Si \(2n-1 \mid n^2+2\), alors \(2n - 1 \mid 4(n^2+2) = 4n^2 + 8 = (2n-1)(2n+1) + 9\). Donc \(2n - 1 \mid 9\).</p>
+<p>\(2n - 1 \in \{-9, -3, -1, 1, 3, 9\}\), donc \(n \in \{-4, -1, 0, 1, 2, 5\}\) (toutes les valeurs donnent un \(n\) entier car \(9\) est impair).</p>
+<p><strong>Réciproque obligatoire</strong> (on a multiplié par \(4\)) :</p>
+<div class="tablewrap"><table class="map">
+<thead><tr><th>n</th><th>2n − 1</th><th>n² + 2</th><th>divise ?</th></tr></thead>
+<tbody>
+<tr><td>−4</td><td>−9</td><td>18</td><td>✓</td></tr>
+<tr><td>−1</td><td>−3</td><td>3</td><td>✓</td></tr>
+<tr><td>0</td><td>−1</td><td>2</td><td>✓</td></tr>
+<tr><td>1</td><td>1</td><td>3</td><td>✓</td></tr>
+<tr><td>2</td><td>3</td><td>6</td><td>✓</td></tr>
+<tr><td>5</td><td>9</td><td>27</td><td>✓</td></tr>
+</tbody></table></div>
+<p><span class="boxed">\(S = \{-4, -1, 0, 1, 2, 5\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V6"><div class="head"><span class="id">V6</span><span class="lvl hard">Difficile</span></div>
+<p>Déterminer les entiers relatifs \(n\) tels que \(n^2 + 2\) divise \(n^4 + 11\).</p>
+<details><summary>Correction</summary><div>
+<p>\(n^4 + 11 = (n^2+2)(n^2-2) + 15\). Donc \(n^2 + 2 \mid 15\).</p>
+<p>\(n^2 + 2 \geqslant 2\), donc \(n^2 + 2 \in \{3, 5, 15\}\), soit \(n^2 \in \{1, 3, 13\}\). Seul \(1\) est un carré : \(n \in \{-1, 1\}\).</p>
+<p>Réciproque : \(n = \pm 1\) : \(3 \mid 12\) ✓. <span class="boxed">\(S = \{-1, 1\}\)</span></p>
+</div></details></div>
+
+<div class="group">C · Division euclidienne</div>
+
+<div class="ex" data-id="V7"><div class="head"><span class="id">V7</span><span class="lvl">Classique</span></div>
+<p>Dans la division euclidienne de \(250\) par un entier \(b \in \mathbb{N}^*\), le quotient est \(7\). Déterminer toutes les valeurs possibles de \(b\) et du reste \(r\).</p>
+<details><summary>Correction</summary><div>
+<p>\(250 = 7b + r\) avec \(0 \leqslant r \lt b\). Donc \(0 \leqslant 250 - 7b \lt b\), soit \(7b \leqslant 250 \lt 8b\) :</p>
+\[ 31{,}25 \lt b \leqslant 35{,}71\ldots \]
+<p>\(b \in \{32, 33, 34, 35\}\) et \(r = 250 - 7b\). <span class="boxed">\((b;r) \in \{(32;26),\,(33;19),\,(34;12),\,(35;5)\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V8"><div class="head"><span class="id">V8</span><span class="lvl">Classique</span></div>
+<p>Dans la division euclidienne de \(a\) par \(b\), le quotient est \(11\) et le reste \(37\). Si on augmente \(a\) de \(180\) sans changer \(b\), le quotient augmente de \(3\) et le reste ne change pas. Trouver \(a\) et \(b\).</p>
+<details><summary>Correction</summary><div>
+<p>\(a = 11b + 37\) avec \(37 \lt b\), et \(a + 180 = 14b + 37\).</p>
+<p>En soustrayant : \(180 = 3b\), donc \(b = 60\). On vérifie \(37 \lt 60\) ✓. Donc \(a = 660 + 37 = 697\).</p>
+<p>Vérif : \(697 + 180 = 877 = 14 \times 60 + 37\) ✓. <span class="boxed">\(a = 697,\ b = 60\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V9"><div class="head"><span class="id">V9</span><span class="lvl">Classique</span></div>
+<p>Dans la division euclidienne de \(a\) par \(b\), le quotient est \(12\) et le reste \(43\). On sait que \(a + b = 693\). Trouver \(a\) et \(b\).</p>
+<details><summary>Correction</summary><div>
+<p>\(a = 12b + 43\) avec \(43 \lt b\). \(a + b = 13b + 43 = 693\), donc \(b = 50\) (et \(43 \lt 50\) ✓), \(a = 643\).</p>
+</div></details></div>
+
+<div class="ex" data-id="V10"><div class="head"><span class="id">V10</span><span class="lvl hard">Difficile</span></div>
+<p>Soit \(n \in \mathbb{N}\). Déterminer, selon \(n\), le reste de la division euclidienne de \(4n + 11\) par \(n + 1\).</p>
+<details><summary>Correction</summary><div>
+<p>\(4n + 11 = 4(n+1) + 7\). Le reste est \(7\) si \(7 \lt n + 1\), c'est-à-dire \(n \geqslant 7\).</p>
+<p>Pour \(0 \leqslant n \leqslant 6\), on calcule directement :</p>
+<div class="tablewrap"><table class="map">
+<thead><tr><th>n</th><th>n+1</th><th>4n+11</th><th>division</th><th>reste</th></tr></thead>
+<tbody>
+<tr><td>0</td><td>1</td><td>11</td><td>1×11 + 0</td><td>0</td></tr>
+<tr><td>1</td><td>2</td><td>15</td><td>2×7 + 1</td><td>1</td></tr>
+<tr><td>2</td><td>3</td><td>19</td><td>3×6 + 1</td><td>1</td></tr>
+<tr><td>3</td><td>4</td><td>23</td><td>4×5 + 3</td><td>3</td></tr>
+<tr><td>4</td><td>5</td><td>27</td><td>5×5 + 2</td><td>2</td></tr>
+<tr><td>5</td><td>6</td><td>31</td><td>6×5 + 1</td><td>1</td></tr>
+<tr><td>6</td><td>7</td><td>35</td><td>7×5 + 0</td><td>0</td></tr>
+</tbody></table></div>
+<p>Et pour \(n \geqslant 7\), le reste vaut \(7\).</p>
+</div></details></div>
+
+<div class="group">D · Disjonction de cas, parité, restes</div>
+
+<div class="ex" data-id="V11"><div class="head"><span class="id">V11</span><span class="lvl">Classique</span></div>
+<p>Montrer que pour tout \(n \in \mathbb{N}\), \(n(n+1)(2n+1)\) est divisible par \(6\).</p>
+<details><summary>Correction</summary><div>
+<p><strong>Par 2 :</strong> \(n(n+1)\) est pair, donc le produit aussi : \(n(n+1)(2n+1) = 2m\).</p>
+<p><strong>Par 3</strong>, disjonction de cas : \(n = 3k\) : \(3 \mid n\) ; \(n = 3k+1\) : \(2n + 1 = 3(2k+1)\) ; \(n = 3k+2\) : \(n + 1 = 3(k+1)\).</p>
+<p>Donc \(3 \mid 2m\). Comme \(3 \mid 3m\), \(3 \mid 3m - 2m = m\), donc \(m = 3m'\) et le produit vaut \(6m'\).</p>
+</div></details></div>
+
+<div class="ex" data-id="V12"><div class="head"><span class="id">V12</span><span class="lvl hard">Difficile</span></div>
+<p>Soit \(n \in \mathbb{N}\) et \(P = n(n+1)(n+2)(n+3)\).<br>
+1) Développer \((n^2 + 3n + 1)^2\).<br>
+2) Montrer que \(P + 1\) est toujours un carré parfait.<br>
+3) Montrer que \(P\) est divisible par \(8\), puis par \(24\).</p>
+<details><summary>Correction</summary><div>
+<p>1) \((n^2+3n+1)^2 = n^4 + 6n^3 + 11n^2 + 6n + 1\).</p>
+<p>2) On regroupe astucieusement : \(n(n+3) = n^2 + 3n\) et \((n+1)(n+2) = n^2 + 3n + 2\). Avec \(m = n^2 + 3n\) :</p>
+\[ P + 1 = m(m+2) + 1 = m^2 + 2m + 1 = (m+1)^2 = (n^2+3n+1)^2. \]
+<p>3) Parmi \(n, n+1, n+2, n+3\), il y a deux pairs consécutifs \(2k\) et \(2k+2\). Leur produit \(4k(k+1)\) est multiple de \(8\) car \(k(k+1)\) est pair. Donc \(8 \mid P\) : \(P = 8m\).</p>
+<p>Parmi \(n, n+1, n+2\), l'un est multiple de \(3\), donc \(3 \mid P = 8m\). Alors \(3 \mid 9m - 8m = m\), \(m = 3m'\) et <span class="boxed">\(P = 24m'\)</span>.</p>
+</div></details></div>
+
+<div class="ex" data-id="V13"><div class="head"><span class="id">V13</span><span class="lvl">Classique</span></div>
+<p>1) Montrer que le reste de la division d'un carré par \(4\) est \(0\) ou \(1\). 2) En déduire que \(2027\) n'est pas un carré. 3) Montrer que \(2027\) n'est pas la somme de deux carrés.</p>
+<details><summary>Correction</summary><div>
+<p>1) \(n = 2k\) : \(n^2 = 4k^2\), reste \(0\). \(n = 2k+1\) : \(n^2 = 4(k^2+k) + 1\), reste \(1\).</p>
+<p>2) \(2027 = 4 \times 506 + 3\), reste \(3\) : pas un carré.</p>
+<p>3) Par l'absurde : si \(2027 = a^2 + b^2\) avec \(a^2 = 4p + r_1\), \(b^2 = 4q + r_2\), \(r_1, r_2 \in \{0,1\}\), alors \(2027 = 4(p+q) + (r_1+r_2)\) avec \(0 \leqslant r_1 + r_2 \leqslant 2 \lt 4\). Le reste serait \(0\), \(1\) ou \(2\), jamais \(3\). Contradiction.</p>
+</div></details></div>
+
+<div class="ex" data-id="V14"><div class="head"><span class="id">V14</span><span class="lvl">Classique</span></div>
+<p>Montrer que l'équation \(x^2 - 3y^2 = 2\) n'a pas de solution dans \(\mathbb{Z}^2\).</p>
+<details><summary>Correction</summary><div>
+<p>Par l'absurde, \(x^2 = 3y^2 + 2\) : le reste de \(x^2\) dans la division par \(3\) serait \(2\).</p>
+<ul>
+<li>\(x = 3k\) : \(x^2 = 3(3k^2)\), reste \(0\).</li>
+<li>\(x = 3k+1\) : \(x^2 = 3(3k^2+2k) + 1\), reste \(1\).</li>
+<li>\(x = 3k+2\) : \(x^2 = 3(3k^2+4k+1) + 1\), reste \(1\).</li>
+</ul>
+<p>Jamais \(2\) : contradiction. <strong>Retiens :</strong> un carré a pour reste \(0\) ou \(1\) par \(3\), et \(0\) seulement si le nombre est multiple de \(3\).</p>
+</div></details></div>
+
+<div class="group">E · Équations dans ℕ et ℤ</div>
+
+<div class="ex" data-id="V15"><div class="head"><span class="id">V15</span><span class="lvl">Classique</span></div>
+<p>Résoudre dans \(\mathbb{N}^2\) : \(x^2 - 4y^2 = 12\).</p>
+<details><summary>Correction</summary><div>
+<p>\((x - 2y)(x + 2y) = 12\), avec \(0 \lt x - 2y \leqslant x + 2y\). Somme \(= 2x\) paire, donc même parité ; produit pair, donc les deux sont pairs : seul \((2;6)\).</p>
+<p>\(2x = 8\), \(x = 4\) ; \(4y = 4\), \(y = 1\). Vérif : \(16 - 4 = 12\) ✓. <span class="boxed">\(S = \{(4;1)\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V16"><div class="head"><span class="id">V16</span><span class="lvl">Classique</span></div>
+<p>Résoudre dans \(\mathbb{N}^2\) : \(x^2 = y^2 + 2y + 13\).</p>
+<details><summary>Correction</summary><div>
+<p>\(y^2 + 2y + 13 = (y+1)^2 + 12\), donc \((x - y - 1)(x + y + 1) = 12\).</p>
+<p>\(x + y + 1 \gt 0\) donc \(x - y - 1 \gt 0\) et \(x - y - 1 \lt x + y + 1\). Même parité (somme \(= 2x\)), produit pair : les deux pairs. Couple \((2;6)\) : \(x = 4\), \(y + 1 = 2\), \(y = 1\). Vérif : \(16 = 1 + 2 + 13\) ✓. <span class="boxed">\(S = \{(4;1)\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V17"><div class="head"><span class="id">V17</span><span class="lvl hard">Difficile</span></div>
+<p>1) Vérifier que \(x^2 - xy - 2y^2 = (x - 2y)(x + y)\).<br>
+2) Résoudre dans \(\mathbb{Z}^2\) : \(x^2 - xy - 2y^2 = 7\).</p>
+<details><summary>Correction</summary><div>
+<p>1) \((x-2y)(x+y) = x^2 + xy - 2xy - 2y^2 = x^2 - xy - 2y^2\) ✓.</p>
+<p>2) \((x-2y)(x+y) = 7\), \(7\) premier. Pour chaque couple, on soustrait les équations : \((x+y) - (x-2y) = 3y\).</p>
+<ul>
+<li>\(x - 2y = 1,\ x + y = 7\) : \(3y = 6\), \(y = 2\), \(x = 5\).</li>
+<li>\(x - 2y = 7,\ x + y = 1\) : \(3y = -6\), \(y = -2\), \(x = 3\).</li>
+<li>\(x - 2y = -1,\ x + y = -7\) : \(3y = -6\), \(y = -2\), \(x = -5\).</li>
+<li>\(x - 2y = -7,\ x + y = -1\) : \(3y = 6\), \(y = 2\), \(x = -3\).</li>
+</ul>
+<p>Vérif : \(25 - 10 - 8 = 7\) ✓. <span class="boxed">\(S = \{(5;2),(3;-2),(-5;-2),(-3;2)\}\)</span></p>
+<p><em>Attention :</em> ici \(3y\) doit être multiple de \(3\). Avec un autre second membre, certains cas donneraient \(y\) non entier et seraient éliminés.</p>
+</div></details></div>
+
+<div class="ex" data-id="V18"><div class="head"><span class="id">V18</span><span class="lvl hard">Difficile</span></div>
+<p>Résoudre dans \(\mathbb{N}^2\) : \(xy = 2x + 3y\). <em>Indication : montrer que l'équation équivaut à \((x-3)(y-2) = 6\).</em></p>
+<details><summary>Correction</summary><div>
+<p>\((x-3)(y-2) = xy - 2x - 3y + 6\), donc \(xy = 2x + 3y \iff (x-3)(y-2) = 6\).</p>
+<p>Contraintes : \(x - 3 \geqslant -3\) et \(y - 2 \geqslant -2\).</p>
+<p><strong>Facteurs positifs :</strong> \((1;6), (2;3), (3;2), (6;1)\) donnent \((4;8), (5;5), (6;4), (9;3)\).</p>
+<p><strong>Facteurs négatifs :</strong> \(y - 2 \in \{-1, -2\}\) impose \(x - 3 \in \{-6, -3\}\). \(x - 3 = -6\) est impossible ; \(x - 3 = -3,\ y - 2 = -2\) donne \((0;0)\).</p>
+<p><span class="boxed">\(S = \{(0;0),(4;8),(5;5),(6;4),(9;3)\}\)</span></p>
+</div></details></div>
+
+<div class="group">F · Récurrence</div>
+
+<div class="ex" data-id="V19"><div class="head"><span class="id">V19</span><span class="lvl">Classique</span></div>
+<p>Montrer que pour tout \(n \in \mathbb{N}\), \(3^{2n+1} + 2^{n+2}\) est divisible par \(7\).</p>
+<details><summary>Correction</summary><div>
+<p><strong>Init.</strong> \(3 + 4 = 7\) ✓. <strong>Hérédité.</strong> Supposons \(3^{2n+1} + 2^{n+2} = 7k\), donc \(2^{n+2} = 7k - 3^{2n+1}\). Alors</p>
+\[ 3^{2n+3} + 2^{n+3} = 9 \times 3^{2n+1} + 2(7k - 3^{2n+1}) = 7\,(3^{2n+1} + 2k). \]
+<p><strong>Conclusion</strong> par récurrence.</p>
+</div></details></div>
+
+<div class="ex" data-id="V20"><div class="head"><span class="id">V20</span><span class="lvl hard">Difficile</span></div>
+<p>Montrer que pour tout \(n \in \mathbb{N}\), \(u_n = 10^n + 3 \times 4^{n+2} + 5\) est divisible par \(9\).</p>
+<details><summary>Correction</summary><div>
+<p><strong>Init.</strong> \(u_0 = 1 + 48 + 5 = 54 = 9 \times 6\) ✓.</p>
+<p><strong>Hérédité.</strong> Supposons \(u_n = 9k\). <em>Astuce avec trois termes :</em> on calcule \(u_{n+1} - 10\,u_n\) pour faire disparaître la puissance de \(10\).</p>
+\[ \begin{aligned} u_{n+1} - 10u_n &= \left(10^{n+1} + 12 \times 4^{n+2} + 5\right) - \left(10^{n+1} + 30 \times 4^{n+2} + 50\right) \\ &= -18 \times 4^{n+2} - 45 = -9\,(2 \times 4^{n+2} + 5). \end{aligned} \]
+<p>Donc \(u_{n+1} = 10 \times 9k - 9(2 \times 4^{n+2} + 5) = 9\,(10k - 2 \times 4^{n+2} - 5)\).</p>
+<p><strong>Conclusion</strong> par récurrence.</p>
+</div></details></div>
+
+<div class="ex" data-id="V21"><div class="head"><span class="id">V21</span><span class="lvl">Classique</span></div>
+<p>Montrer par récurrence que pour tout \(n \in \mathbb{N}\), \(n^3 + 2n\) est divisible par \(3\).</p>
+<details><summary>Correction</summary><div>
+<p><strong>Init.</strong> \(0\) ✓. <strong>Hérédité.</strong> Supposons \(n^3 + 2n = 3k\). Alors</p>
+\[ (n+1)^3 + 2(n+1) = (n^3 + 2n) + 3(n^2 + n + 1) = 3\,(k + n^2 + n + 1). \]
+<p><strong>Conclusion</strong> par récurrence.</p>
+</div></details></div>
+
+<div class="group">G · Problèmes longs (niveau fin de devoir)</div>
+
+<div class="ex" data-id="V22"><div class="head"><span class="id">V22</span><span class="lvl hard">Problème</span></div>
+<p>1) Montrer par récurrence que pour tout \(n \in \mathbb{N}\), \(3^{3n} - 1\) est divisible par \(13\).<br>
+2) En déduire le reste de la division euclidienne par \(13\) de \(3^{3n}\), \(3^{3n+1}\) et \(3^{3n+2}\).<br>
+3) Quel est le reste de la division de \(3^{2026}\) par \(13\) ?<br>
+4) Pour \(p \in \mathbb{N}\), on pose \(B_p = 1 + 3^p + 3^{2p}\). Déterminer, selon \(p\), le reste de la division de \(B_p\) par \(13\). Pour quelles valeurs de \(p\) le nombre \(B_p\) est-il divisible par \(13\) ?</p>
+<details><summary>Correction</summary><div>
+<p>1) \(3^{3n} = 27^n\). Init : \(27^0 - 1 = 0\). Hérédité : \(27^n = 13k + 1 \Rightarrow 27^{n+1} - 1 = 27(13k+1) - 1 = 13 \times 27k + 26 = 13(27k + 2)\). Conclusion.</p>
+<p>2) \(3^{3n} = 13k + 1\), reste \(1\).<br>
+\(3^{3n+1} = 3(13k+1) = 13(3k) + 3\), reste \(3\).<br>
+\(3^{3n+2} = 9(13k+1) = 13(9k) + 9\), reste \(9\).<br>
+(Chaque fois \(0 \leqslant r \lt 13\) ✓.)</p>
+<p>3) \(2026 = 3 \times 675 + 1\), donc \(3^{2026} = 3^{3 \times 675 + 1}\) : <span class="boxed">reste \(3\)</span>.</p>
+<p>4) On écrit \(p\) selon sa division par \(3\).</p>
+<ul>
+<li>\(p = 3n\) : \(3^p\) a pour reste \(1\) ; \(2p = 3(2n)\) donc \(3^{2p}\) a pour reste \(1\). \(B_p = 1 + (13k + 1) + (13k' + 1) = 13(k+k') + 3\) : <strong>reste \(3\)</strong>.</li>
+<li>\(p = 3n+1\) : \(3^p\) reste \(3\) ; \(2p = 6n + 2 = 3(2n) + 2\), reste \(9\). \(B_p = 13(\ldots) + 1 + 3 + 9 = 13(\ldots) + 13\) : <strong>divisible par 13</strong>.</li>
+<li>\(p = 3n+2\) : \(3^p\) reste \(9\) ; \(2p = 6n + 4 = 3(2n+1) + 1\), reste \(3\). \(B_p = 13(\ldots) + 13\) : <strong>divisible par 13</strong>.</li>
+</ul>
+<p><span class="boxed">\(13 \mid B_p\) si et seulement si \(p\) n'est pas multiple de \(3\).</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V23"><div class="head"><span class="id">V23</span><span class="lvl hard">Problème</span></div>
+<p>On considère l'équation \((F) : 7x^2 - 2y^2 = 3\), où \(x\) et \(y\) sont des entiers relatifs.<br>
+1) Démontrer que si \((x;y)\) est solution de \((F)\), alors \(x^2 + y^2\) est un multiple de \(3\).<br>
+2) Montrer que le reste de la division d'un carré par \(3\) est \(0\) ou \(1\), et qu'il vaut \(0\) seulement pour le carré d'un multiple de \(3\).<br>
+3) En déduire que si \((x;y)\) est solution, alors \(x\) et \(y\) sont des multiples de \(3\).<br>
+4) Conclure sur l'équation \((F)\).</p>
+<details><summary>Correction</summary><div>
+<p>1) Si \(7x^2 - 2y^2 = 3\), alors \(x^2 + y^2 = (7x^2 - 2y^2) - 6x^2 + 3y^2 = 3 - 6x^2 + 3y^2 = 3(1 - 2x^2 + y^2)\), avec \(1 - 2x^2 + y^2 \in \mathbb{Z}\). Donc \(3 \mid x^2 + y^2\).</p>
+<p><em>Comment trouver ça :</em> on enlève à \(7x^2 - 2y^2\) des multiples de \(3\) (\(6x^2\) et \(-3y^2\)) pour retomber sur \(x^2 + y^2\).</p>
+<p>2) Voir V14 : \(x = 3k\) donne reste \(0\) ; \(x = 3k+1\) ou \(3k+2\) donnent reste \(1\).</p>
+<p>3) Écrivons \(x^2 = 3p + r_1\), \(y^2 = 3q + r_2\) avec \(r_1, r_2 \in \{0, 1\}\). Alors \(x^2 + y^2 = 3(p+q) + (r_1 + r_2)\) avec \(0 \leqslant r_1 + r_2 \leqslant 2 \lt 3\) : c'est le reste. Il vaut \(0\) seulement si \(r_1 = r_2 = 0\), donc (question 2) \(x\) et \(y\) sont multiples de \(3\).</p>
+<p>4) Par l'absurde, soit \((x;y)\) une solution : \(x = 3a\), \(y = 3b\). Alors \(63a^2 - 18b^2 = 3\), soit \(3(7a^2 - 2b^2) = 1\). Donc \(3 \mid 1\) : absurde. <span class="boxed">\((F)\) n'a pas de solution.</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V24"><div class="head"><span class="id">V24</span><span class="lvl hard">Problème</span></div>
+<p>On cherche les entiers \(a, b \in \mathbb{N}^*\) et \(k \in \mathbb{N}\) tels que \(a^2 + b^2 = 3^k\).<br>
+1) Démontrer que si \(a^2 + b^2\) est multiple de \(3\), alors \(a\) et \(b\) sont multiples de \(3\).<br>
+2) Montrer que les équations \(a^2 + b^2 = 1\) et \(a^2 + b^2 = 3\) n'ont pas de solution dans \((\mathbb{N}^*)^2\).<br>
+3) Montrer que si \(a^2 + b^2 = 3^{k+2}\) a une solution dans \((\mathbb{N}^*)^2\), alors \(a^2 + b^2 = 3^k\) en a une aussi.<br>
+4) En déduire, par récurrence, que \(a^2 + b^2 = 3^k\) n'a de solution pour aucun \(k \in \mathbb{N}\).</p>
+<details><summary>Correction</summary><div>
+<p>1) Même raisonnement que V23 question 3.</p>
+<p>2) \(a, b \geqslant 1\) donc \(a^2 + b^2 \geqslant 2\) : pas de solution pour \(1\). Pour \(3\) : si \(a \geqslant 2\) alors \(a^2 \geqslant 4 \gt 3\) ; donc \(a = b = 1\), mais \(1 + 1 = 2 \neq 3\).</p>
+<p>3) \(3^{k+2}\) est multiple de \(3\), donc par 1) \(a = 3a'\), \(b = 3b'\) avec \(a', b' \in \mathbb{N}^*\). Alors \(9(a'^2 + b'^2) = 3^{k+2}\), soit \(a'^2 + b'^2 = 3^k\).</p>
+<p>4) Pour \(k \in \mathbb{N}\), soit \(P(k)\) : «&nbsp;ni \(a^2+b^2 = 3^k\), ni \(a^2+b^2 = 3^{k+1}\) n'a de solution dans \((\mathbb{N}^*)^2\)&nbsp;».</p>
+<ul>
+<li>Init : \(P(0)\) est la question 2.</li>
+<li>Hérédité : supposons \(P(k)\). Pour \(P(k+1)\), il reste à montrer que \(a^2+b^2 = 3^{k+2}\) n'a pas de solution. Si elle en avait une, par 3) \(a^2 + b^2 = 3^k\) en aurait une, ce qui contredit \(P(k)\).</li>
+</ul>
+<p>Conclusion : <span class="boxed">\(a^2 + b^2 = 3^k\) n'a jamais de solution dans \((\mathbb{N}^*)^2\).</span></p>
+<p><em>Même structure que l'exercice 6 de ton devoir 2025 (avec \(2^k\)) : on «&nbsp;descend&nbsp;» en divisant par \(3\) jusqu'à un cas impossible.</em></p>
+</div></details></div>
+
+<div class="group">H · Nouveaux types (vus dans un autre lycée)</div>
+
+<div class="ex" data-id="V25"><div class="head"><span class="id">V25</span><span class="lvl">Classique</span></div>
+<p>On admet que si \(5\) divise \(m^2\), alors \(5\) divise \(m\). Démontrer par l'absurde que \(\sqrt{5}\) n'est pas un nombre rationnel.</p>
+<details><summary>Correction</summary><div>
+<p>Supposons \(\sqrt{5} \in \mathbb{Q}\). Comme \(\sqrt{5} \gt 0\), il s'écrit \(\dfrac{p}{q}\) avec \(p, q \in \mathbb{N}^*\), et on peut choisir la fraction irréductible (on la simplifie au maximum).</p>
+<p>Alors \(5 = \dfrac{p^2}{q^2}\), soit \(p^2 = 5q^2\). Donc \(5 \mid p^2\), donc \(5 \mid p\) : \(p = 5k\).</p>
+<p>Alors \(25k^2 = 5q^2\), soit \(q^2 = 5k^2\) : \(5 \mid q^2\), donc \(5 \mid q\).</p>
+<p>\(5\) divise \(p\) et \(q\) : la fraction \(p/q\) n'est pas irréductible. Contradiction. <span class="boxed">\(\sqrt{5} \notin \mathbb{Q}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="V26"><div class="head"><span class="id">V26</span><span class="lvl">Classique</span></div>
+<p>Soient \(n\) et \(p\) deux entiers naturels. Le reste de la division de \(n\) par \(7\) est \(4\), celui de \(p\) par \(7\) est \(5\). Sans connaître \(n\) ni \(p\), déterminer le reste de la division par \(7\) de : \(n + p\), \(\ np\), \(\ n^2\), \(\ 3n + 2p\).</p>
+<details><summary>Correction</summary><div>
+<p>\(n = 7a + 4\), \(p = 7b + 5\) avec \(a, b \in \mathbb{N}\).</p>
+<ul>
+<li>\(n + p = 7(a+b) + 9 = 7(a + b + 1) + 2\) : <strong>reste \(2\)</strong>.</li>
+<li>\(np = 49ab + 35a + 28b + 20 = 7(7ab + 5a + 4b + 2) + 6\) : <strong>reste \(6\)</strong>.</li>
+<li>\(n^2 = 49a^2 + 56a + 16 = 7(7a^2 + 8a + 2) + 2\) : <strong>reste \(2\)</strong>.</li>
+<li>\(3n + 2p = 7(3a + 2b) + 22 = 7(3a + 2b + 3) + 1\) : <strong>reste \(1\)</strong>.</li>
+</ul>
+<p>À chaque fois, on vérifie que le reste final est entre \(0\) et \(6\).</p>
+</div></details></div>
+
+<div class="ex" data-id="V27"><div class="head"><span class="id">V27</span><span class="lvl">Classique</span></div>
+<p>On donne \(5\,000 = 37 \times 135 + 5\). Sans effectuer de division, donner le quotient et le reste de la division euclidienne de : 1) \(5\,000\) par \(37\) ; 2) \(5\,000\) par \(135\) ; 3) \(-5\,000\) par \(37\).</p>
+<details><summary>Correction</summary><div>
+<p>1) \(5\,000 = 37 \times 135 + 5\) avec \(0 \leqslant 5 \lt 37\) : <strong>quotient \(135\), reste \(5\)</strong>.</p>
+<p>2) La même égalité s'écrit \(5\,000 = 135 \times 37 + 5\) avec \(0 \leqslant 5 \lt 135\) : <strong>quotient \(37\), reste \(5\)</strong>.</p>
+<p>3) \(-5\,000 = 37 \times (-135) - 5 = 37 \times (-136) + 37 - 5 = 37 \times (-136) + 32\), avec \(0 \leqslant 32 \lt 37\) : <strong>quotient \(-136\), reste \(32\)</strong>.</p>
+</div></details></div>
+
+<!-- ============ 11 ============ -->
+<h2 id="blanc"><span class="num">§11</span>Contrôle blanc</h2>
+<p class="lead">Même format que ton devoir de 2025 : <strong>1 h 15</strong>, calculatrice inutile, <strong>congruences interdites</strong>, toutes les réponses justifiées. 18,5 points d'exercices et 1,5 point de rédaction. Corrige-toi ensuite avec le barème, honnêtement. <strong>Objectif : 15/20 ou plus.</strong></p>
+
+<div class="ex" data-id="CB1"><div class="head"><span class="id">CB 1</span><span class="pts">3 points</span></div>
+<p>Résoudre dans \(\mathbb{N}^2\) l'équation \(25x^2 - y^2 = 39\).</p>
+<details><summary>Correction et barème</summary><div>
+<p><em>(1 pt)</em> \((5x - y)(5x + y) = 39\). Comme \(5x + y \geqslant 0\) et le produit est positif, \(5x - y \gt 0\) ; et \(5x - y \leqslant 5x + y\).</p>
+<p><em>(1 pt)</em> Couples : \((1;39)\) et \((3;13)\). En additionnant : \(10x = 40\) ou \(10x = 16\).</p>
+<p><em>(1 pt)</em> \(10x = 16\) ne donne pas d'entier : éliminé. \((1;39)\) : \(x = 4\), \(2y = 38\), \(y = 19\). Vérif : \(400 - 361 = 39\) ✓. <span class="boxed">\(S = \{(4;19)\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="CB2"><div class="head"><span class="id">CB 2</span><span class="pts">3,5 points</span></div>
+<p>1) Montrer que la somme de 5 entiers consécutifs est un multiple de \(5\).<br>
+2) La somme de 5 entiers consécutifs peut-elle être paire ? Si oui, dans quels cas ?<br>
+3) Montrer que la somme des carrés de trois entiers consécutifs n'est jamais un multiple de \(3\), et n'est jamais un carré parfait.</p>
+<details><summary>Correction et barème</summary><div>
+<p>1) <em>(1 pt)</em> \(n + (n+1) + \dots + (n+4) = 5n + 10 = 5(n+2)\), avec \(n + 2 \in \mathbb{Z}\).</p>
+<p>2) <em>(1 pt)</em> Si \(n = 2k\) : \(5n + 10 = 2(5k + 5)\), paire. Si \(n = 2k+1\) : \(5n + 10 = 10k + 15 = 2(5k+7) + 1\), impaire. <strong>Elle est paire si et seulement si le premier entier est pair.</strong></p>
+<p>3) <em>(1,5 pt)</em> Avec \(n-1, n, n+1\) : \((n-1)^2 + n^2 + (n+1)^2 = 3n^2 + 2\). Son reste par \(3\) est \(2\) (car \(0 \leqslant 2 \lt 3\)) : pas un multiple de \(3\). Or un carré a pour reste \(0\) ou \(1\) par \(3\) (à redémontrer en 3 cas) : ce n'est donc jamais un carré.</p>
+</div></details></div>
+
+<div class="ex" data-id="CB3"><div class="head"><span class="id">CB 3</span><span class="pts">3,5 points</span></div>
+<p>Soit \(n \in \mathbb{N}\).<br>
+1) Vérifier que \(n^2 + 3n + 1 = (n+5)(n-2) + 11\). En déduire le reste de la division euclidienne de \(n^2 + 3n + 1\) par \(n + 5\) lorsque \(n \geqslant 7\).<br>
+2) Vérifier que \(n^2 + 3n + 1 = (n+5)(n-1) + 6 - n\). En déduire le reste lorsque \(1 \leqslant n \leqslant 6\). Que vaut-il pour \(n = 0\) ?<br>
+3) Déterminer les entiers naturels \(n\) tels que \(n + 5\) divise \(n^2 + 3n + 1\).</p>
+<details><summary>Correction et barème</summary><div>
+<p>1) <em>(1 pt)</em> \((n+5)(n-2) + 11 = n^2 + 3n - 10 + 11\) ✓. Pour \(n \geqslant 7\), \(n - 2 \geqslant 0\) et \(0 \leqslant 11 \lt n + 5\) : <strong>reste \(11\)</strong>.</p>
+<p>2) <em>(1,5 pt)</em> \((n+5)(n-1) + 6 - n = n^2 + 4n - 5 + 6 - n\) ✓. Pour \(1 \leqslant n \leqslant 6\) : \(n - 1 \geqslant 0\) et \(0 \leqslant 6 - n \leqslant 5 \lt n + 5\), donc <strong>reste \(6 - n\)</strong>. Pour \(n = 0\) : \(1 = 5 \times 0 + 1\), <strong>reste \(1\)</strong> (ici \(6 - n = 6 \geqslant 5\) n'est pas un reste valide).</p>
+<p>3) <em>(1 pt)</em> \(n+5 \mid n^2 + 3n + 1\) équivaut à \(n + 5 \mid 11\). Comme \(n + 5 \geqslant 5\), \(n + 5 = 11\), <span class="boxed">\(n = 6\)</span>. Cohérent avec 2) : reste \(6 - 6 = 0\).</p>
+</div></details></div>
+
+<div class="ex" data-id="CB4"><div class="head"><span class="id">CB 4</span><span class="pts">2,5 points</span></div>
+<p>Déterminer l'ensemble des entiers relatifs \(n\) tels que \(2n + 1\) divise \(n^2 + 3\).</p>
+<details><summary>Correction et barème</summary><div>
+<p><em>(1 pt)</em> Si \(2n+1 \mid n^2+3\), alors \(2n+1 \mid 4(n^2+3) = (2n+1)(2n-1) + 13\), donc \(2n + 1 \mid 13\).</p>
+<p><em>(0,5 pt)</em> \(2n + 1 \in \{-13, -1, 1, 13\}\), \(n \in \{-7, -1, 0, 6\}\).</p>
+<p><em>(1 pt)</em> Réciproque (obligatoire) : \(n = -7\) : \(-13 \mid 52\) ✓ ; \(n = -1\) : \(-1 \mid 4\) ✓ ; \(n = 0\) : \(1 \mid 3\) ✓ ; \(n = 6\) : \(13 \mid 39\) ✓. <span class="boxed">\(S = \{-7, -1, 0, 6\}\)</span></p>
+<p>Sans réciproque : −1 pt. Sans les négatifs : maximum 1 pt.</p>
+</div></details></div>
+
+<div class="ex" data-id="CB5"><div class="head"><span class="id">CB 5</span><span class="pts">3 points</span></div>
+<p>Montrer que pour tout \(n \in \mathbb{N}\), \(4^{2n+1} + 3^{n+2}\) est divisible par \(13\).</p>
+<details><summary>Correction et barème</summary><div>
+<p><em>(0,5 pt)</em> \(P(n)\) posée ; init : \(4 + 9 = 13\) ✓.</p>
+<p><em>(2 pts)</em> Hérédité : supposons \(4^{2n+1} + 3^{n+2} = 13k\), donc \(3^{n+2} = 13k - 4^{2n+1}\). Alors</p>
+\[ 4^{2n+3} + 3^{n+3} = 16 \times 4^{2n+1} + 3(13k - 4^{2n+1}) = 13 \times 4^{2n+1} + 39k = 13\,(4^{2n+1} + 3k). \]
+<p><em>(0,5 pt)</em> Conclusion rédigée.</p>
+</div></details></div>
+
+<div class="ex" data-id="CB6"><div class="head"><span class="id">CB 6</span><span class="pts">3 points</span></div>
+<p>1) Montrer que le carré d'un entier pair a pour reste \(0\) ou \(4\) dans la division par \(8\), et que le carré d'un entier impair a pour reste \(1\).<br>
+2) En déduire que \(2031\) ne peut pas s'écrire comme la somme des carrés de trois entiers.</p>
+<details><summary>Correction et barème</summary><div>
+<p>1) <em>(1,5 pt)</em> \(n = 2k\) : \(n^2 = 4k^2\). Si \(k = 2m\), \(n^2 = 8(2m^2)\), reste \(0\). Si \(k = 2m+1\), \(n^2 = 4(4m^2 + 4m + 1) = 8(2m^2 + 2m) + 4\), reste \(4\).<br>
+\(n = 2k+1\) : \(n^2 - 1 = 4k(k+1)\) et \(k(k+1)\) est pair, donc \(n^2 = 8p + 1\), reste \(1\).</p>
+<p>2) <em>(1,5 pt)</em> \(2031 = 8 \times 253 + 7\), reste \(7\). Par l'absurde, si \(2031 = a^2 + b^2 + c^2\), chaque carré a pour reste \(0\), \(1\) ou \(4\). Les sommes possibles des trois restes sont \(0, 1, 2, 3, 4, 5, 6, 8, 9, 12\). Celles qui sont \(\geqslant 8\) donnent un reste \(0\), \(1\) ou \(4\) (\(8 = 8 + 0\), \(9 = 8 + 1\), \(12 = 8 + 4\)). Le reste de \(a^2 + b^2 + c^2\) n'est donc jamais \(7\) : contradiction.</p>
+</div></details></div>
+
+<div class="ex" data-id="CB7"><div class="head"><span class="id">Bonus</span><span class="lvl hard">+1 point</span></div>
+<p>1) Vérifier que \(n^5 - n = (n-2)(n-1)n(n+1)(n+2) + 5(n-1)n(n+1)\). 2) En déduire que \(n^5 - n\) est divisible par \(5\) pour tout \(n \in \mathbb{Z}\).</p>
+<details><summary>Correction</summary><div>
+<p>1) \((n-2)(n-1)n(n+1)(n+2) = n(n^2-1)(n^2-4) = n^5 - 5n^3 + 4n\) et \(5(n-1)n(n+1) = 5n^3 - 5n\). Somme : \(n^5 - n\) ✓.</p>
+<p>2) Parmi 5 entiers consécutifs, l'un est multiple de \(5\) : \(5\) divise le premier terme, et le second est \(5 \times (\ldots)\). Donc \(5 \mid n^5 - n\).</p>
+</div></details></div>
+
+<div class="box redac"><span class="tag">Suis-je prêt ?</span>
+<ul class="check">
+<li>Les 27 exercices de validation réussis. Si tu en as raté un, refais-le le lendemain sans regarder la correction.</li>
+<li>Les trois problèmes du groupe G compris : tu sais expliquer chaque «&nbsp;en déduire&nbsp;».</li>
+<li>Contrôle blanc ≥ 15/20 en 1 h 15, rédaction comprise.</li>
+</ul>
+<p>Si un groupe (A à G) te pose problème, relis la fiche méthode correspondante du §6, puis refais les exercices de ce groupe.</p>
+</div>
+
+<!-- ============ 12 ============ -->
+<h2 id="sujetb"><span class="num">§12</span>Sujet B (autre lycée) corrigé</h2>
+<p class="lead">Devoir de 1 heure, sur 20 points. Fais-le d'abord seul, puis corrige-toi. Le nombre de l'exercice 5 est \(652\,980\) (on le vérifie : \(2\,418 \times 270 + 120 = 652\,860 + 120 = 652\,980\)).</p>
+
+<div class="ex" data-id="SB1"><div class="head"><span class="id">SB 1</span><span class="pts">5 points</span></div>
+<p><strong>Irrationalité de \(\sqrt{3}\).</strong> On admet que si \(3\) divise un produit \(mn\), alors \(3 \mid m\) ou \(3 \mid n\).<br>
+1) On suppose \(\sqrt{3} \in \mathbb{Q}\). Justifier qu'il existe \(p, q \in \mathbb{N}^*\) premiers entre eux tels que \(\sqrt{3} = \frac{p}{q}\).<br>
+2) Montrer que \(p^2 = 3q^2\), puis que \(3\) divise \(p\).<br>
+3) En écrivant \(p = 3k\), montrer que \(3\) divise \(q\).<br>
+4) Conclure.</p>
+<details><summary>Correction</summary><div>
+<p>1) <em>(1 pt)</em> Si \(\sqrt{3} \in \mathbb{Q}\), il s'écrit \(\frac{a}{b}\) avec \(a \in \mathbb{Z}\), \(b \in \mathbb{N}^*\). Comme \(\sqrt{3} \gt 0\), \(a \gt 0\). On simplifie la fraction au maximum (on divise \(a\) et \(b\) par tous leurs diviseurs communs) : on obtient \(\frac{p}{q}\) avec \(p, q \in \mathbb{N}^*\) sans autre diviseur commun positif que \(1\), c'est-à-dire premiers entre eux.</p>
+<p>2) <em>(1,5 pt)</em> \(\sqrt{3} = \frac{p}{q}\) donc \(3 = \frac{p^2}{q^2}\), donc \(p^2 = 3q^2\). Ainsi \(3 \mid p^2 = p \times p\). D'après le résultat admis, \(3 \mid p\) ou \(3 \mid p\) : dans les deux cas, \(3 \mid p\).</p>
+<p>3) <em>(1,5 pt)</em> \(p = 3k\), \(k \in \mathbb{N}\). Alors \(9k^2 = 3q^2\), soit \(q^2 = 3k^2\). Donc \(3 \mid q^2 = q \times q\), donc \(3 \mid q\).</p>
+<p>4) <em>(1 pt)</em> \(3\) est un diviseur commun de \(p\) et \(q\), différent de \(1\) : cela contredit le fait que \(p\) et \(q\) sont premiers entre eux. L'hypothèse de départ est fausse : <span class="boxed">\(\sqrt{3}\) est irrationnel.</span></p>
+</div></details></div>
+
+<div class="ex" data-id="SB2"><div class="head"><span class="id">SB 2</span><span class="pts">4 points</span></div>
+<p>Déterminer tous les entiers relatifs \(n\) tels que \(n - 2\) divise \(n + 9\).<br>
+1) Justifier que si \(n - 2 \mid n + 9\), alors \(n - 2 \mid 11\).<br>
+2) Donner les diviseurs de \(11\) dans \(\mathbb{Z}\) et en déduire les valeurs de \(n\).</p>
+<details><summary>Correction</summary><div>
+<p>1) <em>(1,5 pt)</em> On a \(n - 2 \mid n + 9\) et \(n - 2 \mid n - 2\). Par combinaison linéaire, \(n - 2 \mid (n+9) - (n-2) = 11\).</p>
+<p>2) <em>(2,5 pt)</em> \(11\) est premier : ses diviseurs dans \(\mathbb{Z}\) sont \(-11, -1, 1, 11\). Donc \(n - 2 \in \{-11, -1, 1, 11\}\), soit \(n \in \{-9, 1, 3, 13\}\).</p>
+<p>Réciproque : \(n + 9 = (n - 2) + 11\), donc si \(n - 2 \mid 11\), alors \(n - 2 \mid n + 9\). Vérif : \(n = -9\) : \(-11 \mid 0\) ✓ ; \(n = 1\) : \(-1 \mid 10\) ✓ ; \(n = 3\) : \(1 \mid 12\) ✓ ; \(n = 13\) : \(11 \mid 22\) ✓.</p>
+<p><span class="boxed">\(S = \{-9, 1, 3, 13\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="SB3"><div class="head"><span class="id">SB 3</span><span class="pts">3 points</span></div>
+<p>Déterminer les couples d'entiers naturels \((x;y)\) tels que \(x^2 - 3xy = 7\).</p>
+<details><summary>Correction</summary><div>
+<p>On factorise : \(x(x - 3y) = 7\). Comme \(x \in \mathbb{N}\) et le produit vaut \(7 \gt 0\), on a \(x \gt 0\) et \(x - 3y \gt 0\). \(7\) est premier, donc \((x\,;\,x - 3y) \in \{(1;7),\,(7;1)\}\).</p>
+<ul>
+<li>\(x = 1\), \(1 - 3y = 7\) : \(y = -2 \notin \mathbb{N}\). Rejeté.</li>
+<li>\(x = 7\), \(7 - 3y = 1\) : \(y = 2\). Vérif : \(49 - 42 = 7\) ✓.</li>
+</ul>
+<p><span class="boxed">\(S = \{(7;2)\}\)</span></p>
+</div></details></div>
+
+<div class="ex" data-id="SB4"><div class="head"><span class="id">SB 4</span><span class="pts">3 points</span></div>
+<p>Le reste de la division de \(n\) par \(13\) est \(9\), celui de \(p\) par \(13\) est \(6\). Déterminer le reste de la division de \(n + p\) par \(13\).</p>
+<details><summary>Correction</summary><div>
+<p>Il existe \(a, b \in \mathbb{N}\) tels que \(n = 13a + 9\) et \(p = 13b + 6\). Alors</p>
+\[ n + p = 13(a+b) + 15 = 13(a+b) + 13 + 2 = 13(a + b + 1) + 2. \]
+<p>Comme \(a + b + 1 \in \mathbb{N}\) et \(0 \leqslant 2 \lt 13\), c'est la division euclidienne : <span class="boxed">le reste est \(2\)</span>.</p>
+<p>Le piège : répondre \(15\), qui n'est pas un reste car \(15 \geqslant 13\).</p>
+</div></details></div>
+
+<div class="ex" data-id="SB5"><div class="head"><span class="id">SB 5</span><span class="pts">5 points</span></div>
+<p>On a \(652\,980 = 2\,418 \times 270 + 120\). Sans effectuer de division :<br>
+1) Donner le quotient et le reste de la division euclidienne de \(652\,980\) par \(270\).<br>
+2) Donner le quotient et le reste de la division euclidienne de \(-652\,980\) par \(270\).</p>
+<details><summary>Correction</summary><div>
+<p>1) <em>(2,5 pt)</em> L'égalité est de la forme \(a = bq + r\) avec \(b = 270\), et \(0 \leqslant 120 \lt 270\). Par unicité de la division euclidienne : <span class="boxed">quotient \(2\,418\), reste \(120\)</span>.</p>
+<p>2) <em>(2,5 pt)</em> On multiplie par \(-1\) : \(-652\,980 = 270 \times (-2\,418) - 120\). Le «&nbsp;reste&nbsp;» \(-120\) est négatif, interdit. On retire \(270\) une fois de plus au quotient et on l'ajoute au reste :</p>
+\[ -652\,980 = 270 \times (-2\,419) + 270 - 120 = 270 \times (-2\,419) + 150. \]
+<p>Comme \(0 \leqslant 150 \lt 270\) : <span class="boxed">quotient \(-2\,419\), reste \(150\)</span>.</p>
+<p>Vérif : \(270 \times 2\,419 = 653\,130\) et \(-653\,130 + 150 = -652\,980\) ✓.</p>
+</div></details></div>
+
+<div class="box redac"><span class="tag">Ce que ce sujet t'apprend</span>
+<p>Ce sujet est plus facile que les tiens, mais il montre que d'autres profs aiment les questions de <strong>raisonnement pur</strong> (irrationalité), les restes d'une somme, et la division d'un nombre négatif. Si ces trois points sont maîtrisés (V25 à V27), rien ne peut te surprendre.</p>
+</div>
+
+<footer>Cours construit à partir de tes sujets (DS n°1, contrôles n°1 et 2, devoir du 29/09/2025, sujet B d'un autre lycée) et des tableaux de cours. Congruences volontairement exclues.</footer>
+</main>
+</div>
+
+<script>
+(function(){
+  var all = function(open){ document.querySelectorAll('details').forEach(function(d){ d.open = open; }); };
+  var o = document.getElementById('openAll'), c = document.getElementById('closeAll');
+  if (o) o.addEventListener('click', function(){ all(true); });
+  if (c) c.addEventListener('click', function(){ all(false); });
+
+  var KEY = 'arith-done-v2', state = {};
+  try { state = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch(e) { state = {}; }
+  var cards = Array.prototype.slice.call(document.querySelectorAll('.ex[data-id]'));
+  var bar = document.getElementById('pbar'), cnt = document.getElementById('pcount');
+  function refresh(){
+    var n = cards.filter(function(el){ return state[el.dataset.id]; }).length;
+    if (cnt) cnt.textContent = n + ' / ' + cards.length;
+    if (bar) bar.style.width = (100 * n / cards.length) + '%';
+  }
+  cards.forEach(function(el){
+    var id = el.dataset.id, head = el.querySelector('.head');
+    var lab = document.createElement('label'); lab.className = 'done';
+    var box = document.createElement('input'); box.type = 'checkbox'; box.id = 'done-' + id;
+    box.checked = !!state[id];
+    lab.appendChild(box); lab.appendChild(document.createTextNode('Réussi'));
+    head.appendChild(lab);
+    el.classList.toggle('is-done', box.checked);
+    box.addEventListener('change', function(){
+      state[id] = box.checked;
+      el.classList.toggle('is-done', box.checked);
+      try { localStorage.setItem(KEY, JSON.stringify(state)); } catch(e) {}
+      refresh();
+    });
+  });
+  refresh();
+})();
+</script>
